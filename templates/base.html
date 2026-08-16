@@ -5,41 +5,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Flora AI — Plant Health & Disease Detection{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Flora AI is an AI-powered agricultural health platform to detect plant diseases, understand crop health, and get actionable treatments.{% endblock %}">
   
-  <!-- Centralized Theme & Component Styles -->
-  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  {% block meta_tags %}
+  <meta name="description" content="{% block meta_description %}Flora AI is an AI-powered agricultural health platform to detect plant diseases, understand crop health, and get actionable treatments.{% endblock %}">
+  {% endblock %}
+
+  <!-- Master Base Stylesheet (Theme Tokens & Reusable Components) -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
   {% block extra_css %}{% endblock %}
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-  <!-- Shared Header Navigation -->
-  {% include 'includes/header.html' %}
+  <div class="site-wrapper">
+    <!-- Header Navigation Section -->
+    {% block header %}
+      {% include 'includes/header.html' %}
+    {% endblock %}
 
-  <!-- Django Messages Container -->
-  {% if messages %}
-    <div class="container" style="margin-top: var(--space-4);">
-      {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %}" role="alert">
-          <div>{{ message }}</div>
-          <button type="button" class="alert-close" aria-label="Close alert" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: auto;">&times;</button>
+    <!-- Global Messages / Alerts Area -->
+    {% block messages %}
+      {% if messages %}
+        <div class="container" style="margin-top: var(--space-4);">
+          {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %}" role="alert">
+              <div>{{ message }}</div>
+              <button type="button" class="alert-close" aria-label="Close alert" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: auto;">&times;</button>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+      {% endif %}
+    {% endblock %}
 
-  <!-- Main Page Content Block -->
-  <main class="page-wrapper">
-    <div class="container">
-      {% block content %}
-      {% endblock %}
-    </div>
-  </main>
+    <!-- Main Page Content Section -->
+    <main class="main-content page-wrapper">
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
 
-  <!-- Shared Footer -->
-  {% include 'includes/footer.html' %}
+    <!-- Footer Section -->
+    {% block footer %}
+      {% include 'includes/footer.html' %}
+    {% endblock %}
+  </div>
 
-  <!-- JavaScript Foundation -->
+  <!-- Reusable Modals & Dialogs Hook -->
+  {% block modals %}{% endblock %}
+
+  <!-- Global JavaScript Foundation -->
   <script src="{% static 'js/main.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Flora AI — Detect. Understand. Treat. | AI Plant Health Platform{% endblock %}
+
+{% block meta_description %}Flora AI provides instant plant health diagnosis and disease detection from leaf images to help farmers and growers protect crop yields.{% endblock %}
+
+{% block content %}
+<!-- ==========================================================================
+     Hero Section
+     ========================================================================== -->
+<section class="hero-section">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span>🌱</span>
+        <span>AI-Powered Plant Health Platform</span>
+      </div>
+      <h1 class="hero-headline">
+        <span class="highlight">Detect. Understand. Treat.</span><br>
+        Protect Your Crops with AI.
+      </h1>
+      <p class="hero-description">
+        Flora AI enables farmers, growers, and agronomists to instantly identify plant diseases from leaf photos and access clear, actionable treatment guidelines to safeguard crop health.
+      </p>
+      <div class="hero-actions">
+        <a href="#how-it-works" class="btn btn-primary btn-lg">
+          <span>Get Started</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">
+          <span>How It Works</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="scanner-card">
+        <div class="scanner-preview">
+          <div class="scanner-laser"></div>
+          <div class="scanner-leaf-icon">🍃</div>
+          <span style="font-size: var(--font-xs); color: var(--color-primary-300); margin-top: var(--space-2);">AI Visual Scan Active</span>
+        </div>
+        <div class="scanner-result-row">
+          <div style="display: flex; align-items: center; gap: var(--space-2);">
+            <span class="badge badge-success">Analyzed</span>
+            <span style="font-weight: var(--weight-medium); color: var(--text-primary);">Tomato Early Blight</span>
+          </div>
+          <span style="font-weight: var(--weight-bold); color: var(--color-primary-400);">98.4%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     Core Value Section
+     ========================================================================== -->
+<section id="core-value" class="section-wrapper">
+  <div class="section-header">
+    <span class="section-tag">Core Value</span>
+    <h2 class="section-title">Built for Healthy Crops and Sustainable Yields</h2>
+    <p class="section-subtitle">
+      Flora AI bridges agricultural science and computer vision to deliver early diagnosis right from your field or greenhouse.
+    </p>
+  </div>
+
+  <div class="section-grid">
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">📸</div>
+      <h3 class="feature-title">Instant Leaf Analysis</h3>
+      <p class="feature-description">
+        Simply capture or upload a clear photo of an affected leaf to begin diagnostic inspection.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">🧠</div>
+      <h3 class="feature-title">AI-Powered Detection</h3>
+      <p class="feature-description">
+        Intelligent models analyze subtle leaf discoloration, lesions, and patterns to detect potential diseases.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon-wrapper">💊</div>
+      <h3 class="feature-title">Actionable Treatments</h3>
+      <p class="feature-description">
+        Receive direct, practical recommendations for crop recovery, preventative care, and treatment steps.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     How It Works Section
+     ========================================================================== -->
+<section id="how-it-works" class="section-wrapper">
+  <div class="section-header">
+    <span class="section-tag">Workflow</span>
+    <h2 class="section-title">How Flora AI Works</h2>
+    <p class="section-subtitle">
+      Three simple steps to assess plant health and prevent disease spread.
+    </p>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3 class="step-title">Upload / Capture</h3>
+      <p class="step-desc">
+        Take a picture of the suspect plant leaf using your mobile camera or upload an existing image.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3 class="step-title">AI Analysis</h3>
+      <p class="step-desc">
+        Flora AI's neural network examines biological symptoms, discoloration, and fungal/bacterial spot patterns.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3 class="step-title">Disease Result</h3>
+      <p class="step-desc">
+        Review detected condition, confidence rating, and proven agricultural recommendations to treat your crop.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     Call to Action Banner
+     ========================================================================== -->
+<section class="section-wrapper" style="padding-top: 0;">
+  <div class="cta-banner">
+    <h3>Ready to Protect Your Harvest?</h3>
+    <p>
+      Join growers, farmers, and agriculture professionals using Flora AI to detect crop diseases before they spread.
+    </p>
+    <a href="#how-it-works" class="btn btn-primary btn-lg">
+      <span>Start Diagnosing Plants</span>
+      <span>&rarr;</span>
+    </a>
+  </div>
+</section>
+{% endblock %}
