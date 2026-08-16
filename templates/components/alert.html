@@ -1,0 +1,5 @@
+{# Reusable Alert Component: include with type='success'|'warning'|'danger'|'info' message='Text' #}
+<div class="alert alert-{{ type|default:'info' }}" role="alert">
+  <div>{{ message }}</div>
+  <button type="button" class="alert-close" aria-label="Close alert" style="background: none; border: none; color: inherit; cursor: pointer; margin-left: auto;">&times;</button>
+</div>

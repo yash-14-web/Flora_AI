@@ -1,0 +1,18 @@
+{% load static %}
+<header class="navbar">
+  <div class="container navbar-container">
+    <a href="/" class="navbar-brand">
+      <div class="brand-icon">🌱</div>
+      <span>Flora <span style="color: var(--color-primary-400);">AI</span></span>
+    </a>
+    
+    <nav aria-label="Main Navigation">
+      <ul class="navbar-nav">
+        <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'admin:index' %}" class="nav-link">Admin</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
