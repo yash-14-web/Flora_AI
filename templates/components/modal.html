@@ -1,0 +1,12 @@
+{# Reusable Modal Component: include with modal_id='modal1' title='Modal Title' content='Content' #}
+<div class="modal-backdrop" id="{{ modal_id }}" aria-hidden="true" role="dialog" aria-labelledby="{{ modal_id }}-title">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="card-title" id="{{ modal_id }}-title">{{ title }}</h3>
+      <button type="button" data-modal-close style="background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+    <div class="modal-body">
+      {{ content }}
+    </div>
+  </div>
+</div>
