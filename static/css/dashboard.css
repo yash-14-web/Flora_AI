@@ -1,0 +1,368 @@
+/* ==========================================================================
+   Flora AI - Dashboard Specific Styles (TASK-012)
+   Modular styling for authenticated user dashboard
+   ========================================================================== */
+
+.dashboard-wrapper {
+  padding: var(--space-8) 0 var(--space-16);
+}
+
+/* --- Dashboard Welcome & Header --- */
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-user-greeting {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.user-avatar-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--color-primary-600), var(--color-secondary-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+  flex-shrink: 0;
+}
+
+.dashboard-title {
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.dashboard-subtitle {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.dashboard-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  color: var(--color-primary-300);
+  font-weight: var(--weight-medium);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-success);
+  box-shadow: 0 0 6px var(--color-success);
+}
+
+/* --- Primary Main Action Card (Detect Disease) --- */
+.detect-action-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.12) 100%);
+  border: 1px solid var(--border-color-hover);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  margin-bottom: var(--space-8);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.detect-action-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+  border-radius: var(--radius-full);
+  pointer-events: none;
+}
+
+.detect-action-content {
+  max-width: 620px;
+}
+
+.detect-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-primary-300);
+  margin-bottom: var(--space-3);
+}
+
+.detect-action-title {
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.detect-action-desc {
+  font-size: var(--font-base);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.detect-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* --- Basic Summary Statistics (No advanced analytics) --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-color-hover);
+}
+
+.stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--color-primary-400);
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-size: var(--font-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Two Column Layout for Quick Actions & Recent Scans --- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-8);
+}
+
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.section-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-card-title {
+  font-size: var(--font-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --- Recent Scans List / Empty State --- */
+.scans-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.scan-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition-fast);
+}
+
+.scan-item:hover {
+  border-color: var(--border-color-hover);
+}
+
+.scan-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.scan-icon {
+  font-size: 1.5rem;
+}
+
+.scan-plant-name {
+  font-size: var(--font-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.scan-date {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+}
+
+/* Empty State Card */
+.empty-state {
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-3);
+  opacity: 0.7;
+}
+
+.empty-state-title {
+  font-size: var(--font-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.empty-state-desc {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  max-width: 320px;
+  margin: 0 auto var(--space-5);
+  line-height: var(--line-height-normal);
+}
+
+/* --- Quick Actions Menu --- */
+.quick-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quick-action-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.quick-action-item:hover {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: var(--color-primary-500);
+  transform: translateX(4px);
+}
+
+.quick-action-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.quick-action-icon {
+  font-size: 1.25rem;
+  color: var(--color-primary-400);
+}
+
+.quick-action-title {
+  font-size: var(--font-sm);
+  font-weight: var(--weight-medium);
+}
+
+.quick-action-arrow {
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+}
+
+/* --- Responsive Breakpoints for Dashboard --- */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detect-action-card {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detect-action-card {
+    padding: var(--space-6) var(--space-4);
+  }
+}

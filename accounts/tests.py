@@ -7,6 +7,7 @@ class AccountsRegistrationTests(TestCase):
     def setUp(self):
         self.client = Client()
         self.register_url = reverse('register')
+        self.dashboard_url = reverse('dashboard')
         self.home_url = reverse('home')
 
     def test_registration_page_renders(self):
@@ -23,7 +24,7 @@ class AccountsRegistrationTests(TestCase):
             'password_confirm': 'SecurePlantPassword123!',
         }
         response = self.client.post(self.register_url, data=post_data, follow=True)
-        self.assertRedirects(response, self.home_url)
+        self.assertRedirects(response, self.dashboard_url)
         
         # Verify user created in DB
         user = User.objects.filter(username='flora_farmer').first()
@@ -76,7 +77,7 @@ class AccountsRegistrationTests(TestCase):
         user = User.objects.create_user(username='auth_user', password='Password123!')
         self.client.force_login(user)
         response = self.client.get(self.register_url)
-        self.assertRedirects(response, self.home_url)
+        self.assertRedirects(response, self.dashboard_url)
 
 
 class AccountsLoginLogoutTests(TestCase):
@@ -84,6 +85,7 @@ class AccountsLoginLogoutTests(TestCase):
         self.client = Client()
         self.login_url = reverse('login')
         self.logout_url = reverse('logout')
+        self.dashboard_url = reverse('dashboard')
         self.home_url = reverse('home')
         self.user = User.objects.create_user(
             username='active_farmer',
@@ -103,7 +105,7 @@ class AccountsLoginLogoutTests(TestCase):
             'password': 'HarvestPassword123!',
         }
         response = self.client.post(self.login_url, data=post_data, follow=True)
-        self.assertRedirects(response, self.home_url)
+        self.assertRedirects(response, self.dashboard_url)
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertEqual(response.context['user'].username, 'active_farmer')
 
@@ -113,7 +115,7 @@ class AccountsLoginLogoutTests(TestCase):
             'password': 'HarvestPassword123!',
         }
         response = self.client.post(self.login_url, data=post_data, follow=True)
-        self.assertRedirects(response, self.home_url)
+        self.assertRedirects(response, self.dashboard_url)
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertEqual(response.context['user'].username, 'active_farmer')
 
@@ -169,4 +171,4 @@ class AccountsLoginLogoutTests(TestCase):
     def test_authenticated_user_redirected_from_login(self):
         self.client.force_login(self.user)
         response = self.client.get(self.login_url)
-        self.assertRedirects(response, self.home_url)
+        self.assertRedirects(response, self.dashboard_url)
