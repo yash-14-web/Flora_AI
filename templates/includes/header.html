@@ -14,14 +14,14 @@
 
     <nav aria-label="Main Navigation">
       <ul class="navbar-nav">
-        <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
-        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-        <li><a href="#core-value" class="nav-link">Core Value</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="{% url 'home' %}#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="{% url 'home' %}#core-value" class="nav-link">Core Value</a></li>
         {% if user.is_authenticated %}
           <li><a href="{% url 'admin:index' %}" class="nav-link">Admin</a></li>
         {% else %}
-          <li><a href="#login" class="btn btn-ghost btn-sm">Login</a></li>
-          <li><a href="#register" class="btn btn-primary btn-sm">Register</a></li>
+          <li><a href="{% url 'login' %}" class="btn btn-ghost btn-sm {% if request.path == '/login/' %}active{% endif %}">Login</a></li>
+          <li><a href="{% url 'register' %}" class="btn btn-primary btn-sm {% if request.path == '/register/' %}active{% endif %}">Register</a></li>
         {% endif %}
       </ul>
     </nav>

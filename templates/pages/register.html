@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register — Flora AI{% endblock %}
+
+{% block meta_description %}Create an account on Flora AI to monitor crop diseases, receive AI recommendations, and track plant health history.{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-brand-badge">
+        <span>🌱</span>
+      </div>
+      <h1 class="auth-title">Create Account</h1>
+      <p class="auth-subtitle">Join Flora AI to diagnose and protect your crops</p>
+    </div>
+
+    <!-- Error Message Area -->
+    <div class="auth-error-area" id="register-error-container">
+      {% if form.errors or form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          <div>
+            {% if form.non_field_errors %}
+              {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            {% else %}
+              <p>Please resolve the form errors below.</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+      <div id="client-reg-error-box" class="alert alert-danger" role="alert" style="display: none;">
+        <span id="client-reg-error-msg"></span>
+      </div>
+    </div>
+
+    <!-- Registration Form (UI Shell prepared for backend integration) -->
+    <form id="register-form" method="post" action="{% url 'register' %}" novalidate>
+      {% csrf_token %}
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="id_reg_username" class="form-label">Username</label>
+        <input 
+          type="text" 
+          id="id_reg_username" 
+          name="username" 
+          class="form-input {% if form.username.errors %}is-invalid{% endif %}" 
+          placeholder="Choose a username (e.g. greenfarmer)" 
+          value="{{ form.username.value|default:'' }}"
+          required 
+          autocomplete="username"
+          aria-required="true"
+        />
+        <div id="reg-username-error" class="form-error" style="display: none;"></div>
+        {% if form.username.errors %}
+          <div class="form-error">{{ form.username.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Email Address Field -->
+      <div class="form-group">
+        <label for="id_reg_email" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="id_reg_email" 
+          name="email" 
+          class="form-input {% if form.email.errors %}is-invalid{% endif %}" 
+          placeholder="your.email@example.com" 
+          value="{{ form.email.value|default:'' }}"
+          required 
+          autocomplete="email"
+          aria-required="true"
+        />
+        <div id="reg-email-error" class="form-error" style="display: none;"></div>
+        {% if form.email.errors %}
+          <div class="form-error">{{ form.email.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="id_reg_password" class="form-label">Password</label>
+        <div class="password-input-group">
+          <input 
+            type="password" 
+            id="id_reg_password" 
+            name="password" 
+            class="form-input {% if form.password.errors %}is-invalid{% endif %}" 
+            placeholder="Create a strong password" 
+            required 
+            autocomplete="new-password"
+            aria-required="true"
+          />
+          <button 
+            type="button" 
+            class="password-toggle-btn" 
+            aria-label="Toggle password visibility"
+            data-target="id_reg_password"
+          >
+            <svg viewBox="0 0 24 24" class="icon-eye">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="reg-password-error" class="form-error" style="display: none;"></div>
+        {% if form.password.errors %}
+          <div class="form-error">{{ form.password.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Password Confirmation Field -->
+      <div class="form-group">
+        <label for="id_reg_password_confirm" class="form-label">Confirm Password</label>
+        <div class="password-input-group">
+          <input 
+            type="password" 
+            id="id_reg_password_confirm" 
+            name="password_confirm" 
+            class="form-input {% if form.password_confirm.errors %}is-invalid{% endif %}" 
+            placeholder="Re-enter your password" 
+            required 
+            autocomplete="new-password"
+            aria-required="true"
+          />
+          <button 
+            type="button" 
+            class="password-toggle-btn" 
+            aria-label="Toggle confirm password visibility"
+            data-target="id_reg_password_confirm"
+          >
+            <svg viewBox="0 0 24 24" class="icon-eye">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="reg-confirm-error" class="form-error" style="display: none;"></div>
+        {% if form.password_confirm.errors %}
+          <div class="form-error">{{ form.password_confirm.errors.0 }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Submit Button with Loading State -->
+      <button type="submit" id="register-submit-btn" class="btn btn-primary btn-full btn-lg" style="margin-top: var(--space-6);">
+        <span class="btn-text">Create Account</span>
+        <span class="btn-spinner spinner" aria-hidden="true"></span>
+      </button>
+    </form>
+
+    <!-- Footer / Navigation link to Login -->
+    <div class="auth-footer">
+      <p>Already have an account? <a href="{% url 'login' %}">Sign in here</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const registerForm = document.getElementById('register-form');
+  const submitBtn = document.getElementById('register-submit-btn');
+  const usernameInput = document.getElementById('id_reg_username');
+  const emailInput = document.getElementById('id_reg_email');
+  const passwordInput = document.getElementById('id_reg_password');
+  const confirmInput = document.getElementById('id_reg_password_confirm');
+  
+  const clientErrorBox = document.getElementById('client-reg-error-box');
+  const clientErrorMsg = document.getElementById('client-reg-error-msg');
+  const usernameError = document.getElementById('reg-username-error');
+  const emailError = document.getElementById('reg-email-error');
+  const passwordError = document.getElementById('reg-password-error');
+  const confirmError = document.getElementById('reg-confirm-error');
+
+  // Password Visibility Toggle
+  document.querySelectorAll('.password-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (input) {
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        btn.style.color = isPassword ? 'var(--color-primary-400)' : 'var(--text-muted)';
+      }
+    });
+  });
+
+  // Client-Side Validation and Loading State
+  registerForm.addEventListener('submit', (e) => {
+    let isValid = true;
+    clientErrorBox.style.display = 'none';
+    usernameError.style.display = 'none';
+    emailError.style.display = 'none';
+    passwordError.style.display = 'none';
+    confirmError.style.display = 'none';
+
+    usernameInput.classList.remove('is-invalid');
+    emailInput.classList.remove('is-invalid');
+    passwordInput.classList.remove('is-invalid');
+    confirmInput.classList.remove('is-invalid');
+
+    // Validate Username
+    if (!usernameInput.value.trim()) {
+      usernameInput.classList.add('is-invalid');
+      usernameError.textContent = 'Please enter a username.';
+      usernameError.style.display = 'block';
+      isValid = false;
+    }
+
+    // Validate Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput.value.trim()) {
+      emailInput.classList.add('is-invalid');
+      emailError.textContent = 'Please enter an email address.';
+      emailError.style.display = 'block';
+      isValid = false;
+    } else if (!emailRegex.test(emailInput.value.trim())) {
+      emailInput.classList.add('is-invalid');
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.style.display = 'block';
+      isValid = false;
+    }
+
+    // Validate Password
+    if (!passwordInput.value) {
+      passwordInput.classList.add('is-invalid');
+      passwordError.textContent = 'Please enter a password.';
+      passwordError.style.display = 'block';
+      isValid = false;
+    } else if (passwordInput.value.length < 6) {
+      passwordInput.classList.add('is-invalid');
+      passwordError.textContent = 'Password must be at least 6 characters.';
+      passwordError.style.display = 'block';
+      isValid = false;
+    }
+
+    // Validate Confirm Password
+    if (!confirmInput.value) {
+      confirmInput.classList.add('is-invalid');
+      confirmError.textContent = 'Please confirm your password.';
+      confirmError.style.display = 'block';
+      isValid = false;
+    } else if (passwordInput.value !== confirmInput.value) {
+      confirmInput.classList.add('is-invalid');
+      confirmError.textContent = 'Passwords do not match.';
+      confirmError.style.display = 'block';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      e.preventDefault();
+      clientErrorBox.style.display = 'flex';
+      clientErrorMsg.textContent = 'Please correct the issues in the form before submitting.';
+      return;
+    }
+
+    // Show loading state on submission
+    submitBtn.classList.add('is-loading');
+    submitBtn.setAttribute('disabled', 'disabled');
+  });
+});
+</script>
+{% endblock %}
