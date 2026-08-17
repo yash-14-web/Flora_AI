@@ -23,5 +23,11 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='pages/landing.html'), name='home'),
     path('login/', TemplateView.as_view(template_name='pages/login.html'), name='login'),
     path('register/', TemplateView.as_view(template_name='pages/register.html'), name='register'),
+    path('dashboard/', TemplateView.as_view(template_name='pages/dashboard.html'), name='dashboard'),
+    # Future feature route placeholders (UI shells to be built per individual tasks)
+    path('detection/', TemplateView.as_view(template_name='pages/dashboard.html'), name='detection'),
+    path('history/', TemplateView.as_view(template_name='pages/dashboard.html'), name='history'),
+    path('profile/', TemplateView.as_view(template_name='pages/dashboard.html'), name='profile'),
+    path('logout/', TemplateView.as_view(template_name='pages/login.html'), name='logout'),
 ]
 
