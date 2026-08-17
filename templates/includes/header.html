@@ -6,11 +6,22 @@
       <span>Flora <span style="color: var(--color-primary-400);">AI</span></span>
     </a>
     
+    <button type="button" class="navbar-mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="currentColor"/>
+      </svg>
+    </button>
+
     <nav aria-label="Main Navigation">
       <ul class="navbar-nav">
         <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="#core-value" class="nav-link">Core Value</a></li>
         {% if user.is_authenticated %}
           <li><a href="{% url 'admin:index' %}" class="nav-link">Admin</a></li>
+        {% else %}
+          <li><a href="#login" class="btn btn-ghost btn-sm">Login</a></li>
+          <li><a href="#register" class="btn btn-primary btn-sm">Register</a></li>
         {% endif %}
       </ul>
     </nav>
