@@ -29,12 +29,18 @@ def login_view(request):
                 # Browser session only (expires when browser is closed)
                 request.session.set_expiry(0)
 
-            # Secure redirect validation
-            if redirect_to and url_has_allowed_host_and_scheme(
-                url=redirect_to,
-                allowed_hosts={request.get_host()},
-                require_https=request.is_secure()
-            ):
+            # Secure redirect validation (local paths only)
+            is_safe_redirect = (
+                redirect_to
+                and redirect_to.startswith('/')
+                and not redirect_to.startswith('//')
+                and url_has_allowed_host_and_scheme(
+                    url=redirect_to,
+                    allowed_hosts={request.get_host()},
+                    require_https=request.is_secure()
+                )
+            )
+            if is_safe_redirect:
                 return redirect(redirect_to)
 
             return redirect(settings.LOGIN_REDIRECT_URL)
