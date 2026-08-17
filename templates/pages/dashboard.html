@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard — Flora AI{% endblock %}
+
+{% block meta_description %}Flora AI Authenticated Dashboard. Overview of your plant health scans, recent diagnoses, and quick disease detection tools.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+  
+  <!-- ==========================================================================
+       1. Welcome Header Section (Dynamic User Info)
+       ========================================================================== -->
+  <header class="dashboard-header">
+    <div class="dashboard-user-greeting">
+      <div class="user-avatar-badge" aria-hidden="true">
+        <span>🌱</span>
+      </div>
+      <div>
+        <h1 class="dashboard-title">
+          {% if user.is_authenticated %}
+            Welcome back, {{ user.first_name|default:user.username }}!
+          {% else %}
+            Welcome to Flora AI
+          {% endif %}
+        </h1>
+        <p class="dashboard-subtitle">Monitor crop health, run AI diagnostic scans, and track treatment histories.</p>
+      </div>
+    </div>
+
+    <div class="dashboard-status-indicator">
+      <span class="status-dot"></span>
+      <span>AI Diagnostics Engine Ready</span>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       2. Prominent Main Action (Detect Plant Disease)
+       ========================================================================== -->
+  <section class="detect-action-card" aria-labelledby="detect-action-heading">
+    <div class="detect-action-content">
+      <div class="detect-badge">
+        <span>📸</span>
+        <span>Instant Leaf Diagnosis</span>
+      </div>
+      <h2 id="detect-action-heading" class="detect-action-title">Detect Plant Disease</h2>
+      <p class="detect-action-desc">
+        Capture or upload a clear photo of an affected crop leaf. Flora AI's vision model will classify potential diseases and provide actionable agricultural treatment guidelines.
+      </p>
+      <div class="detect-action-btn">
+        <a href="{% url 'detection' %}" class="btn btn-primary btn-lg">
+          <span>Start Leaf Scan</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="detect-action-visual" aria-hidden="true" style="display: flex; justify-content: center; align-items: center;">
+      <div style="font-size: 4rem; filter: drop-shadow(0 4px 16px rgba(16, 185, 129, 0.4));">
+        🍃
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       3. Basic Summary Statistics (No advanced analytics)
+       ========================================================================== -->
+  <section class="stats-grid" aria-label="Summary Overview">
+    <div class="stat-card">
+      <div class="stat-icon-wrapper" aria-hidden="true">🔬</div>
+      <div>
+        <div class="stat-value">{{ total_scans|default:"0" }}</div>
+        <div class="stat-label">Total Scans</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-wrapper" aria-hidden="true">🌿</div>
+      <div>
+        <div class="stat-value">{{ healthy_crops|default:"0" }}</div>
+        <div class="stat-label">Healthy Crops</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-wrapper" aria-hidden="true">💊</div>
+      <div>
+        <div class="stat-value">{{ active_treatments|default:"0" }}</div>
+        <div class="stat-label">Active Treatments</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. Recent Scans & Quick Actions Grid
+       ========================================================================== -->
+  <div class="dashboard-grid">
+    
+    <!-- Recent Scans Column -->
+    <section class="section-card" aria-labelledby="recent-scans-heading">
+      <div class="section-card-header">
+        <h2 id="recent-scans-heading" class="section-card-title">
+          <span>📋</span>
+          <span>Recent Scans</span>
+        </h2>
+        {% if recent_scans %}
+          <a href="{% url 'history' %}" class="btn btn-ghost btn-sm">View All</a>
+        {% endif %}
+      </div>
+
+      {% if recent_scans %}
+        <div class="scans-list">
+          {% for scan in recent_scans %}
+            <div class="scan-item">
+              <div class="scan-meta">
+                <span class="scan-icon">🍃</span>
+                <div>
+                  <div class="scan-plant-name">{{ scan.plant_name|default:"Crop Scan" }}</div>
+                  <div class="scan-date">{{ scan.created_at|date:"M d, Y" }}</div>
+                </div>
+              </div>
+              <div>
+                <span class="badge {% if scan.is_healthy %}badge-success{% else %}badge-warning{% endif %}">
+                  {{ scan.diagnosis|default:"Diagnosed" }}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <!-- Clean Empty State ready for dynamic backend data -->
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">🪴</div>
+          <h3 class="empty-state-title">No Scans Recorded Yet</h3>
+          <p class="empty-state-desc">
+            Diagnose your first crop leaf to start building your plant health and treatment history.
+          </p>
+          <a href="{% url 'detection' %}" class="btn btn-outline btn-sm">
+            <span>Diagnose a Leaf Now</span>
+          </a>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Quick Actions Column -->
+    <aside class="section-card" aria-labelledby="quick-actions-heading">
+      <div class="section-card-header">
+        <h2 id="quick-actions-heading" class="section-card-title">
+          <span>⚡</span>
+          <span>Quick Actions</span>
+        </h2>
+      </div>
+
+      <nav class="quick-actions-list" aria-label="Dashboard Quick Actions">
+        <a href="{% url 'detection' %}" class="quick-action-item">
+          <div class="quick-action-info">
+            <span class="quick-action-icon">📸</span>
+            <span class="quick-action-title">New Disease Scan</span>
+          </div>
+          <span class="quick-action-arrow">&rarr;</span>
+        </a>
+
+        <a href="{% url 'history' %}" class="quick-action-item">
+          <div class="quick-action-info">
+            <span class="quick-action-icon">📜</span>
+            <span class="quick-action-title">Scan History</span>
+          </div>
+          <span class="quick-action-arrow">&rarr;</span>
+        </a>
+
+        <a href="{% url 'profile' %}" class="quick-action-item">
+          <div class="quick-action-info">
+            <span class="quick-action-icon">👤</span>
+            <span class="quick-action-title">Profile Settings</span>
+          </div>
+          <span class="quick-action-arrow">&rarr;</span>
+        </a>
+      </nav>
+    </aside>
+
+  </div>
+
+</div>
+{% endblock %}
