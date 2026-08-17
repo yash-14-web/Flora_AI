@@ -18,7 +18,8 @@
         <li><a href="{% url 'home' %}#how-it-works" class="nav-link">How It Works</a></li>
         <li><a href="{% url 'home' %}#core-value" class="nav-link">Core Value</a></li>
         {% if user.is_authenticated %}
-          <li><a href="{% url 'admin:index' %}" class="nav-link">Admin</a></li>
+          <li><span class="nav-link" style="display: inline-flex; align-items: center; gap: 6px; color: var(--color-primary-300); font-weight: var(--weight-semibold);"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-primary-400); display: inline-block;"></span>{{ user.username }}</span></li>
+          <li><a href="{% url 'logout' %}" class="btn btn-ghost btn-sm">Logout</a></li>
         {% else %}
           <li><a href="{% url 'login' %}" class="btn btn-ghost btn-sm {% if request.path == '/login/' %}active{% endif %}">Login</a></li>
           <li><a href="{% url 'register' %}" class="btn btn-primary btn-sm {% if request.path == '/register/' %}active{% endif %}">Register</a></li>
