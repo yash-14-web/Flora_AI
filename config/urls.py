@@ -27,7 +27,7 @@ urlpatterns = [
     # Future feature route placeholders (UI shells to be built per individual tasks)
     path('detection/', TemplateView.as_view(template_name='pages/dashboard.html'), name='detection'),
     path('history/', TemplateView.as_view(template_name='pages/dashboard.html'), name='history'),
-    path('profile/', TemplateView.as_view(template_name='pages/dashboard.html'), name='profile'),
+    path('profile/', TemplateView.as_view(template_name='pages/profile.html'), name='profile'),
     path('logout/', TemplateView.as_view(template_name='pages/login.html'), name='logout'),
 ]
 
