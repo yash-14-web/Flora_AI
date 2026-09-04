@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.conf import settings
 from django.utils.http import url_has_allowed_host_and_scheme
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, UserProfileForm
+from .models import UserProfile
 
 
 def login_view(request):
@@ -82,3 +85,40 @@ def logout_view(request):
     """
     auth_logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
+
+
+@login_required
+def profile_view(request):
+    """
+    Handles displaying and updating the authenticated user's profile and preferences.
+    """
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been successfully updated.')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the errors in the form below.')
+    else:
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'phone': profile.phone,
+            'organization': profile.organization,
+            'location': profile.location,
+            'specialization': profile.specialization,
+            'crop_focus': profile.crop_focus,
+            'measurement_unit': profile.measurement_unit,
+            'notifications_enabled': profile.notifications_enabled,
+        }
+        form = UserProfileForm(request.user, initial=initial_data)
+
+    return render(request, 'pages/profile.html', {
+        'form': form,
+        'profile': profile,
+    })
+

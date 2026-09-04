@@ -302,3 +302,127 @@ class ProtectedViewsAndFlowIntegrationTests(TestCase):
         login_res = self.client.post(self.login_url, data=login_data, follow=True)
         self.assertRedirects(login_res, self.dashboard_url)
         self.assertTrue(login_res.context['user'].is_authenticated)
+
+
+class AccountsProfileTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.profile_url = reverse('profile')
+        self.login_url = reverse('login')
+        self.user = User.objects.create_user(
+            username='profile_farmer',
+            email='farmer.profile@flora.ai',
+            password='ProfilePassword123!',
+            first_name='Flora',
+            last_name='Grower'
+        )
+        self.other_user = User.objects.create_user(
+            username='other_farmer',
+            email='other@flora.ai',
+            password='OtherPassword123!',
+            first_name='Other',
+            last_name='User'
+        )
+
+    def test_unauthenticated_profile_access_redirects_to_login(self):
+        response = self.client.get(self.profile_url)
+        self.assertRedirects(response, f"{self.login_url}?next={self.profile_url}")
+
+    def test_profile_page_renders_with_user_data(self):
+        self.client.force_login(self.user)
+        response = self.client.get(self.profile_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'pages/profile.html')
+        self.assertIn('form', response.context)
+        self.assertEqual(response.context['form']['first_name'].value(), 'Flora')
+        self.assertEqual(response.context['form']['last_name'].value(), 'Grower')
+        self.assertEqual(response.context['form']['email'].value(), 'farmer.profile@flora.ai')
+
+    def test_profile_update_successful_persists_to_db(self):
+        self.client.force_login(self.user)
+        update_data = {
+            'first_name': 'UpdatedFirst',
+            'last_name': 'UpdatedLast',
+            'email': 'updated.email@flora.ai',
+            'phone': '+1 555 987 6543',
+            'organization': 'Flora Agrotech Research',
+            'location': 'Northern Agricultural Zone',
+            'specialization': 'Plant Virology & Fungal Diagnostics',
+            'crop_focus': 'Wheat, Barley, Rice',
+            'measurement_unit': 'Imperial',
+            'notifications_enabled': 'on',
+        }
+        response = self.client.post(self.profile_url, data=update_data, follow=True)
+        self.assertRedirects(response, self.profile_url)
+
+        # Verify User model updated in DB
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.first_name, 'UpdatedFirst')
+        self.assertEqual(self.user.last_name, 'UpdatedLast')
+        self.assertEqual(self.user.email, 'updated.email@flora.ai')
+
+        # Verify UserProfile model updated in DB
+        profile = self.user.profile
+        self.assertEqual(profile.phone, '+1 555 987 6543')
+        self.assertEqual(profile.organization, 'Flora Agrotech Research')
+        self.assertEqual(profile.location, 'Northern Agricultural Zone')
+        self.assertEqual(profile.specialization, 'Plant Virology & Fungal Diagnostics')
+        self.assertEqual(profile.crop_focus, 'Wheat, Barley, Rice')
+        self.assertEqual(profile.measurement_unit, 'Imperial')
+        self.assertTrue(profile.notifications_enabled)
+
+    def test_profile_update_duplicate_email_rejected(self):
+        self.client.force_login(self.user)
+        update_data = {
+            'first_name': 'Flora',
+            'last_name': 'Grower',
+            'email': 'other@flora.ai',  # Belongs to other_user
+            'phone': '+1 555 000 0000',
+            'organization': 'Farm',
+            'location': 'Zone',
+            'specialization': 'Crops',
+            'crop_focus': 'Corn',
+            'measurement_unit': 'Metric',
+        }
+        response = self.client.post(self.profile_url, data=update_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(
+            response.context['form'], 'email',
+            'An account with this email address already exists.'
+        )
+
+        # Verify user's email was not altered in DB
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, 'farmer.profile@flora.ai')
+
+    def test_profile_update_missing_email_rejected(self):
+        self.client.force_login(self.user)
+        update_data = {
+            'first_name': 'Flora',
+            'last_name': 'Grower',
+            'email': '',
+        }
+        response = self.client.post(self.profile_url, data=update_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].has_error('email'))
+
+    def test_user_cannot_access_or_modify_other_user_profile(self):
+        # User is logged in as self.user
+        self.client.force_login(self.user)
+        
+        # Profile view must only serve and update self.user's profile
+        response = self.client.get(self.profile_url)
+        self.assertEqual(response.context['user'], self.user)
+        self.assertNotEqual(response.context['user'], self.other_user)
+
+        # Attempt to save updates - must only apply to self.user
+        update_data = {
+            'first_name': 'SelfOnlyFirst',
+            'last_name': 'SelfOnlyLast',
+            'email': 'selfonly@flora.ai',
+        }
+        self.client.post(self.profile_url, data=update_data)
+        self.other_user.refresh_from_db()
+        self.assertEqual(self.other_user.first_name, 'Other')
+        self.assertEqual(self.other_user.email, 'other@flora.ai')
+
