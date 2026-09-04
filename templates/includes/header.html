@@ -14,14 +14,12 @@
 
     <nav aria-label="Main Navigation">
       <ul class="navbar-nav">
-        {% if user.is_authenticated or request.path == '/dashboard/' or request.path == '/detection/' or request.path == '/history/' or request.path == '/profile/' %}
+        {% if user.is_authenticated %}
           <li><a href="{% url 'dashboard' %}" class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}">Dashboard</a></li>
           <li><a href="{% url 'detection' %}" class="nav-link {% if request.path == '/detection/' %}active{% endif %}">Detect Disease</a></li>
           <li><a href="{% url 'history' %}" class="nav-link {% if request.path == '/history/' %}active{% endif %}">History</a></li>
           <li><a href="{% url 'profile' %}" class="nav-link {% if request.path == '/profile/' %}active{% endif %}">Profile</a></li>
-          {% if user.is_authenticated %}
-            <li><span class="nav-link" style="display: inline-flex; align-items: center; gap: 6px; color: var(--color-primary-300); font-weight: var(--weight-semibold);"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-primary-400); display: inline-block;"></span>{{ user.username }}</span></li>
-          {% endif %}
+          <li><span class="nav-link" style="display: inline-flex; align-items: center; gap: 6px; color: var(--color-primary-300); font-weight: var(--weight-semibold);"><span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-primary-400); display: inline-block;"></span>{{ user.username }}</span></li>
           <li><a href="{% url 'logout' %}" class="btn btn-ghost btn-sm">Logout</a></li>
         {% else %}
           <li><a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>

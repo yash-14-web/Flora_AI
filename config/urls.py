@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 from django.views.generic import TemplateView
 
@@ -22,10 +23,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='pages/landing.html'), name='home'),
     path('', include('accounts.urls')),
-    path('dashboard/', TemplateView.as_view(template_name='pages/dashboard.html'), name='dashboard'),
+    path('dashboard/', login_required(TemplateView.as_view(template_name='pages/dashboard.html')), name='dashboard'),
     # Future feature route placeholders (UI shells to be built per individual tasks)
-    path('detection/', TemplateView.as_view(template_name='pages/dashboard.html'), name='detection'),
-    path('history/', TemplateView.as_view(template_name='pages/dashboard.html'), name='history'),
-    path('profile/', TemplateView.as_view(template_name='pages/dashboard.html'), name='profile'),
+    path('detection/', login_required(TemplateView.as_view(template_name='pages/dashboard.html')), name='detection'),
+    path('history/', login_required(TemplateView.as_view(template_name='pages/dashboard.html')), name='history'),
+    path('profile/', login_required(TemplateView.as_view(template_name='pages/dashboard.html')), name='profile'),
 ]
 
