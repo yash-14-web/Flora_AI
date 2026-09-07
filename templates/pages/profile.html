@@ -136,29 +136,21 @@
       
       <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap;">
         <div class="profile-avatar-large" aria-hidden="true">
-          {% if user.is_authenticated and user.username %}
-            {{ user.username|slice:":1"|upper }}
-          {% else %}
-            N
-          {% endif %}
+          {{ user.username|slice:":1"|upper|default:"A" }}
         </div>
         <div>
           <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-1);">
             <h2 style="font-size: var(--font-2xl); font-weight: var(--weight-bold); color: var(--text-primary); margin-bottom: 0;">
-              {% if user.is_authenticated %}
-                {{ user.get_full_name|default:user.username }}
-              {% else %}
-                Nandini Lakkisetty
-              {% endif %}
+              {{ user.get_full_name|default:user.username }}
             </h2>
             <span class="badge badge-success">Active Agronomist</span>
           </div>
           <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-bottom: var(--space-2);">
-            <span>@{% if user.is_authenticated %}{{ user.username }}{% else %}nandini_flora{% endif %}</span> &bull; 
-            <span style="color: var(--color-primary-400);">{% if user.is_authenticated and user.email %}{{ user.email }}{% else %}nandini.l@flora.ai{% endif %}</span>
+            <span>@{{ user.username }}</span> &bull; 
+            <span style="color: var(--color-primary-400);">{{ user.email }}</span>
           </p>
           <p style="font-size: var(--font-xs); color: var(--text-muted); margin-bottom: 0;">
-            🏢 Flora Precision Agronomy &bull; 📍 Central Valley Ag District, CA
+            🏢 {{ profile.organization|default:"Flora Precision Agronomy" }} &bull; 📍 {{ profile.location|default:"Farm Location Not Set" }}
           </p>
         </div>
       </div>
@@ -199,6 +191,20 @@
         <form method="post" action="{% url 'profile' %}" id="profile-update-form" novalidate>
           {% csrf_token %}
 
+          {% if form.errors %}
+            <div class="alert alert-danger" role="alert" style="margin-bottom: var(--space-6);">
+              <div>
+                {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                    <p style="margin: 0;">{{ error }}</p>
+                  {% endfor %}
+                {% else %}
+                  <p style="margin: 0;">Please review and resolve the errors below.</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
           <!-- Section 1: Personal & Contact Information -->
           <div class="profile-form-section">
             <h4 class="profile-section-heading">
@@ -212,11 +218,13 @@
                   type="text" 
                   id="first_name" 
                   name="first_name" 
-                  class="input-field" 
-                  value="{% if user.is_authenticated %}{{ user.first_name|default:'Nandini' }}{% else %}Nandini{% endif %}" 
-                  required
+                  class="input-field {% if form.first_name.errors %}is-invalid{% endif %}" 
+                  value="{{ form.first_name.value|default:'' }}" 
                   placeholder="e.g. Nandini"
                 >
+                {% if form.first_name.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.first_name.errors.0 }}</div>
+                {% endif %}
               </div>
 
               <div class="form-group">
@@ -225,11 +233,13 @@
                   type="text" 
                   id="last_name" 
                   name="last_name" 
-                  class="input-field" 
-                  value="{% if user.is_authenticated %}{{ user.last_name|default:'Lakkisetty' }}{% else %}Lakkisetty{% endif %}" 
-                  required
+                  class="input-field {% if form.last_name.errors %}is-invalid{% endif %}" 
+                  value="{{ form.last_name.value|default:'' }}" 
                   placeholder="e.g. Lakkisetty"
                 >
+                {% if form.last_name.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.last_name.errors.0 }}</div>
+                {% endif %}
               </div>
             </div>
 
@@ -240,11 +250,14 @@
                   type="email" 
                   id="email" 
                   name="email" 
-                  class="input-field" 
-                  value="{% if user.is_authenticated and user.email %}{{ user.email }}{% else %}nandini.l@flora.ai{% endif %}" 
+                  class="input-field {% if form.email.errors %}is-invalid{% endif %}" 
+                  value="{{ form.email.value|default:'' }}" 
                   required
                   placeholder="e.g. agronomist@flora.ai"
                 >
+                {% if form.email.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.email.errors.0 }}</div>
+                {% endif %}
               </div>
 
               <div class="form-group">
@@ -253,10 +266,13 @@
                   type="tel" 
                   id="phone" 
                   name="phone" 
-                  class="input-field" 
-                  value="+1 (555) 234-8901" 
+                  class="input-field {% if form.phone.errors %}is-invalid{% endif %}" 
+                  value="{{ form.phone.value|default:'' }}" 
                   placeholder="+1 (555) 000-0000"
                 >
+                {% if form.phone.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.phone.errors.0 }}</div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -274,10 +290,13 @@
                   type="text" 
                   id="organization" 
                   name="organization" 
-                  class="input-field" 
-                  value="Flora Precision Agronomy & Crop Labs" 
+                  class="input-field {% if form.organization.errors %}is-invalid{% endif %}" 
+                  value="{{ form.organization.value|default:'' }}" 
                   placeholder="e.g. Flora Precision Agronomy"
                 >
+                {% if form.organization.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.organization.errors.0 }}</div>
+                {% endif %}
               </div>
 
               <div class="form-group">
@@ -286,10 +305,13 @@
                   type="text" 
                   id="location" 
                   name="location" 
-                  class="input-field" 
-                  value="Central Valley Ag District, CA" 
+                  class="input-field {% if form.location.errors %}is-invalid{% endif %}" 
+                  value="{{ form.location.value|default:'' }}" 
                   placeholder="e.g. Central Valley Ag District"
                 >
+                {% if form.location.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.location.errors.0 }}</div>
+                {% endif %}
               </div>
             </div>
 
@@ -299,10 +321,13 @@
                 type="text" 
                 id="specialization" 
                 name="specialization" 
-                class="input-field" 
-                value="Crop Pathology & Hydroponic Disease Management" 
+                class="input-field {% if form.specialization.errors %}is-invalid{% endif %}" 
+                value="{{ form.specialization.value|default:'' }}" 
                 placeholder="e.g. Crop Pathology, Hydroponics, Leaf Fungal Disease Detection"
               >
+              {% if form.specialization.errors %}
+                <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.specialization.errors.0 }}</div>
+              {% endif %}
             </div>
           </div>
 
@@ -319,18 +344,24 @@
                   type="text" 
                   id="crop_focus" 
                   name="crop_focus" 
-                  class="input-field" 
-                  value="Tomatoes, Corn, Potatoes, Apple Orchards" 
+                  class="input-field {% if form.crop_focus.errors %}is-invalid{% endif %}" 
+                  value="{{ form.crop_focus.value|default:'' }}" 
                   placeholder="e.g. Tomatoes, Corn, Potatoes"
                 >
+                {% if form.crop_focus.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.crop_focus.errors.0 }}</div>
+                {% endif %}
               </div>
 
               <div class="form-group">
                 <label for="measurement_unit" class="input-label">Measurement Standard</label>
                 <select id="measurement_unit" name="measurement_unit" class="input-field" style="cursor: pointer;">
-                  <option value="Metric" selected>Metric (Celsius, Hectares)</option>
-                  <option value="Imperial">Imperial (Fahrenheit, Acres)</option>
+                  <option value="Metric" {% if form.measurement_unit.value == 'Metric' or not form.measurement_unit.value %}selected{% endif %}>Metric (Celsius, Hectares)</option>
+                  <option value="Imperial" {% if form.measurement_unit.value == 'Imperial' %}selected{% endif %}>Imperial (Fahrenheit, Acres)</option>
                 </select>
+                {% if form.measurement_unit.errors %}
+                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.measurement_unit.errors.0 }}</div>
+                {% endif %}
               </div>
             </div>
 
@@ -340,7 +371,7 @@
                   type="checkbox" 
                   id="notifications_enabled" 
                   name="notifications_enabled" 
-                  checked
+                  {% if form.notifications_enabled.value %}checked{% endif %}
                   style="width: 18px; height: 18px; accent-color: var(--color-primary-500); cursor: pointer;"
                 >
                 <div>
@@ -422,7 +453,7 @@
           </div>
           <div class="user-detail-row">
             <span class="user-detail-label">Member Since</span>
-            <span class="user-detail-value">August 2026</span>
+            <span class="user-detail-value">{{ user.date_joined|date:"F Y"|default:"August 2026" }}</span>
           </div>
           <div class="user-detail-row">
             <span class="user-detail-label">Auth Provider</span>

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from .models import UserProfile
 
 
 class LoginForm(forms.Form):
@@ -197,3 +198,139 @@ class RegistrationForm(forms.Form):
             password=password
         )
         return user
+
+
+class UserProfileForm(forms.Form):
+    """
+    Form handling agronomist user profile and preferences updates.
+    Validates user email uniqueness and updates both User and UserProfile models.
+    """
+    first_name = forms.CharField(
+        label="First Name",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'first_name',
+            'class': 'input-field',
+            'placeholder': 'e.g. Nandini'
+        })
+    )
+    last_name = forms.CharField(
+        label="Last Name",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'last_name',
+            'class': 'input-field',
+            'placeholder': 'e.g. Lakkisetty'
+        })
+    )
+    email = forms.EmailField(
+        label="Email Address",
+        max_length=254,
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'id': 'email',
+            'class': 'input-field',
+            'placeholder': 'e.g. agronomist@flora.ai'
+        })
+    )
+    phone = forms.CharField(
+        label="Phone / Contact",
+        max_length=30,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'phone',
+            'class': 'input-field',
+            'placeholder': '+1 (555) 000-0000'
+        })
+    )
+    organization = forms.CharField(
+        label="Organization / Farm Name",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'organization',
+            'class': 'input-field',
+            'placeholder': 'e.g. Flora Precision Agronomy'
+        })
+    )
+    location = forms.CharField(
+        label="Region / Agricultural Zone",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'location',
+            'class': 'input-field',
+            'placeholder': 'e.g. Central Valley Ag District'
+        })
+    )
+    specialization = forms.CharField(
+        label="Agronomic Specialization & Focus Areas",
+        max_length=200,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'specialization',
+            'class': 'input-field',
+            'placeholder': 'e.g. Crop Pathology, Hydroponics'
+        })
+    )
+    crop_focus = forms.CharField(
+        label="Default Crop Focus List",
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'crop_focus',
+            'class': 'input-field',
+            'placeholder': 'e.g. Tomatoes, Corn, Potatoes'
+        })
+    )
+    measurement_unit = forms.ChoiceField(
+        label="Measurement Standard",
+        choices=[('Metric', 'Metric (Celsius, Hectares)'), ('Imperial', 'Imperial (Fahrenheit, Acres)')],
+        required=False,
+        widget=forms.Select(attrs={
+            'id': 'measurement_unit',
+            'class': 'input-field'
+        })
+    )
+    notifications_enabled = forms.BooleanField(
+        label="Receive High-Severity Disease Detection Alerts",
+        required=False,
+        widget=forms.CheckboxInput(attrs={
+            'id': 'notifications_enabled'
+        })
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '').strip().lower()
+        if not email:
+            raise forms.ValidationError("Email address is required.")
+        # Ensure email uniqueness across all other user accounts
+        if User.objects.filter(email__iexact=email).exclude(pk=self.user.pk).exists():
+            raise forms.ValidationError("An account with this email address already exists.")
+        return email
+
+    def save(self):
+        # Update User model
+        self.user.first_name = self.cleaned_data.get('first_name', '').strip()
+        self.user.last_name = self.cleaned_data.get('last_name', '').strip()
+        self.user.email = self.cleaned_data.get('email')
+        self.user.save()
+
+        # Update UserProfile model
+        profile, _ = UserProfile.objects.get_or_create(user=self.user)
+        profile.phone = self.cleaned_data.get('phone', '').strip()
+        profile.organization = self.cleaned_data.get('organization', '').strip()
+        profile.location = self.cleaned_data.get('location', '').strip()
+        profile.specialization = self.cleaned_data.get('specialization', '').strip()
+        profile.crop_focus = self.cleaned_data.get('crop_focus', '').strip()
+        profile.measurement_unit = self.cleaned_data.get('measurement_unit') or 'Metric'
+        profile.notifications_enabled = bool(self.cleaned_data.get('notifications_enabled'))
+        profile.save()
+        return profile
+
