@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="100%" height="100%" fill="none">
+  <!-- Circular Leaf Emblem -->
+  <g transform="translate(10, 10)">
+    <!-- Outer glow ring -->
+    <circle cx="30" cy="30" r="28" fill="#14532d" fill-opacity="0.2" stroke="#22c55e" stroke-width="2" stroke-opacity="0.4"/>
+    <circle cx="30" cy="30" r="24" fill="#0f3d23"/>
+    
+    <!-- Leaves illustration -->
+    <path d="M30 46 C30 46, 22 40, 22 28 C22 20, 27 16, 30 14 C33 16, 38 20, 38 28 C38 40, 30 46, 30 46 Z" fill="#22c55e"/>
+    <path d="M30 46 C30 46, 38 42, 41 33 C43 27, 40 22, 35 20 C36 24, 34 32, 30 38" fill="#16a34a"/>
+    <path d="M30 46 C30 46, 22 42, 19 33 C17 27, 20 22, 25 20 C24 24, 26 32, 30 38" fill="#4ade80"/>
+    <path d="M30 46 L30 18" stroke="#052e16" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Tech Accent Dots -->
+    <circle cx="21" cy="20" r="1.5" fill="#86efac"/>
+    <circle cx="39" cy="20" r="1.5" fill="#86efac"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="82" y="42" font-family="'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#ffffff" letter-spacing="-0.5">Flora <tspan fill="#22c55e">AI</tspan></text>
+  <text x="84" y="60" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="500" fill="#86efac" letter-spacing="1.2">Detect. Understand. Protect.</text>
+</svg>

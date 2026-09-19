@@ -88,17 +88,17 @@ class RegistrationForm(forms.Form):
     """
     Form handling new user registration with strict validation
     for uniqueness, email format, and password security policies.
+    Supports full_name, phone, and optional explicit or auto-generated username.
     """
-    username = forms.CharField(
-        label="Username",
+    full_name = forms.CharField(
+        label="Full Name",
         max_length=150,
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={
-            'id': 'id_reg_username',
+            'id': 'id_reg_fullname',
             'class': 'form-input',
-            'placeholder': 'Choose a username (e.g. greenfarmer)',
-            'autocomplete': 'username',
-            'aria-required': 'true'
+            'placeholder': 'Enter your full name',
+            'autocomplete': 'name',
         })
     )
     email = forms.EmailField(
@@ -113,8 +113,31 @@ class RegistrationForm(forms.Form):
             'aria-required': 'true'
         })
     )
+    phone = forms.CharField(
+        label="Phone Number",
+        max_length=30,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'id_reg_phone',
+            'class': 'form-input',
+            'placeholder': 'Enter phone number',
+            'autocomplete': 'tel',
+        })
+    )
+    username = forms.CharField(
+        label="Username",
+        max_length=150,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'id': 'id_reg_username',
+            'class': 'form-input',
+            'placeholder': 'Choose a username (e.g. greenfarmer)',
+            'autocomplete': 'username',
+        })
+    )
     password = forms.CharField(
         label="Password",
+        max_length=128,
         required=True,
         widget=forms.PasswordInput(attrs={
             'id': 'id_reg_password',
@@ -126,6 +149,7 @@ class RegistrationForm(forms.Form):
     )
     password_confirm = forms.CharField(
         label="Confirm Password",
+        max_length=128,
         required=True,
         widget=forms.PasswordInput(attrs={
             'id': 'id_reg_password_confirm',
@@ -138,7 +162,21 @@ class RegistrationForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get('username', '').strip()
+        full_name = self.data.get('full_name', '').strip()
+        email = self.data.get('email', '').strip()
+
+        # If username is omitted, auto-derive if full_name or email was supplied
         if not username:
+            if full_name or email:
+                import re
+                base = (full_name or email.split('@')[0]).lower().replace(' ', '_')
+                base = re.sub(r'[^\w.@+-]', '', base) or 'farmer'
+                candidate = base[:30]
+                counter = 1
+                while User.objects.filter(username__iexact=candidate).exists():
+                    candidate = f"{base[:25]}_{counter}"
+                    counter += 1
+                return candidate
             raise forms.ValidationError("Username is required.")
         
         # Disallow spaces in username
@@ -174,7 +212,6 @@ class RegistrationForm(forms.Form):
                 self.add_error('password_confirm', "Passwords do not match.")
 
             # Validate against Django password strength validators
-            # Create a temporary user instance for validator user attributes comparison
             temp_user = User(username=username or '', email=email or '')
             try:
                 validate_password(password, user=temp_user)
@@ -186,17 +223,36 @@ class RegistrationForm(forms.Form):
 
     def save(self):
         """
-        Creates and persists a new user with securely hashed password.
+        Creates and persists a new user with securely hashed password,
+        populates first_name/last_name and phone in UserProfile.
         """
         username = self.cleaned_data['username']
         email = self.cleaned_data['email']
         password = self.cleaned_data['password']
+        full_name = self.cleaned_data.get('full_name', '').strip()
+        phone = self.cleaned_data.get('phone', '').strip()
+
+        first_name = ''
+        last_name = ''
+        if full_name:
+            parts = full_name.split(None, 1)
+            first_name = parts[0]
+            if len(parts) > 1:
+                last_name = parts[1]
 
         user = User.objects.create_user(
             username=username,
             email=email,
-            password=password
+            password=password,
+            first_name=first_name,
+            last_name=last_name
         )
+
+        if phone:
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            profile.phone = phone
+            profile.save()
+
         return user
 
 

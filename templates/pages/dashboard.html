@@ -3,186 +3,504 @@
 
 {% block title %}Dashboard — Flora AI{% endblock %}
 
-{% block meta_description %}Flora AI Authenticated Dashboard. Overview of your plant health scans, recent diagnoses, and quick disease detection tools.{% endblock %}
+{% block meta_description %}Flora AI Dashboard. Overview of your crops, plant disease detection scans, and local weather intelligence.{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% endblock %}
 
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block content %}
-<div class="dashboard-wrapper">
-  
-  <!-- ==========================================================================
-       1. Welcome Header Section (Dynamic User Info)
-       ========================================================================== -->
-  <header class="dashboard-header">
-    <div class="dashboard-user-greeting">
-      <div class="user-avatar-badge" aria-hidden="true">
-        <span>🌱</span>
-      </div>
-      <div>
-        <h1 class="dashboard-title">
-          {% if user.is_authenticated %}
-            Welcome back, {{ user.first_name|default:user.username }}!
-          {% else %}
-            Welcome to Flora AI
-          {% endif %}
-        </h1>
-        <p class="dashboard-subtitle">Monitor crop health, run AI diagnostic scans, and track treatment histories.</p>
-      </div>
-    </div>
-
-    <div class="dashboard-status-indicator">
-      <span class="status-dot"></span>
-      <span>AI Diagnostics Engine Ready</span>
-    </div>
-  </header>
+<div class="dashboard-app-canvas">
 
   <!-- ==========================================================================
-       2. Prominent Main Action (Detect Plant Disease)
+       1. Left Sidebar Navigation (PAGE-004 - DASHBOARD)
        ========================================================================== -->
-  <section class="detect-action-card" aria-labelledby="detect-action-heading">
-    <div class="detect-action-content">
-      <div class="detect-badge">
-        <span>📸</span>
-        <span>Instant Leaf Diagnosis</span>
-      </div>
-      <h2 id="detect-action-heading" class="detect-action-title">Detect Plant Disease</h2>
-      <p class="detect-action-desc">
-        Capture or upload a clear photo of an affected crop leaf. Flora AI's vision model will classify potential diseases and provide actionable agricultural treatment guidelines.
-      </p>
-      <div class="detect-action-btn">
-        <a href="{% url 'detection' %}" class="btn btn-primary btn-lg">
-          <span>Start Leaf Scan</span>
-          <span>&rarr;</span>
+  <aside class="dash-sidebar" aria-label="Main Navigation">
+    <div>
+      <div class="dash-sidebar-logo">
+        <a href="{% url 'dashboard' %}" title="Flora AI Dashboard">
+          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo">
         </a>
       </div>
+
+      <ul class="dash-nav-menu">
+        <li class="dash-nav-item active">
+          <a href="{% url 'dashboard' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'detection' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="22" y1="12" x2="18" y2="12"></line>
+                <line x1="6" y1="12" x2="2" y2="12"></line>
+                <line x1="12" y1="6" x2="12" y2="2"></line>
+                <line x1="12" y1="22" x2="12" y2="18"></line>
+              </svg>
+            </span>
+            <span>Disease Detection</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'history' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </span>
+            <span>Detection History</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="#weather-overview" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+              </svg>
+            </span>
+            <span>Weather Intelligence</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'profile' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <div class="detect-action-visual" aria-hidden="true" style="display: flex; justify-content: center; align-items: center;">
-      <div style="font-size: 4rem; filter: drop-shadow(0 4px 16px rgba(16, 185, 129, 0.4));">
-        🍃
-      </div>
+    <!-- Bottom Sidebar Logout Trigger -->
+    <div class="dash-sidebar-bottom">
+      <button type="button" id="trigger-logout-modal" class="dash-logout-btn">
+        <span class="dash-nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </span>
+        <span>Logout</span>
+      </button>
     </div>
-  </section>
+  </aside>
 
   <!-- ==========================================================================
-       3. Basic Summary Statistics (No advanced analytics)
+       2. Main Dashboard Workspace Pane
        ========================================================================== -->
-  <section class="stats-grid" aria-label="Summary Overview">
-    <div class="stat-card">
-      <div class="stat-icon-wrapper" aria-hidden="true">🔬</div>
+  <main class="dash-main-pane">
+
+    <!-- Top Header Bar -->
+    <header class="dash-top-header">
       <div>
-        <div class="stat-value">{{ total_scans|default:"0" }}</div>
-        <div class="stat-label">Total Scans</div>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon-wrapper" aria-hidden="true">🌿</div>
-      <div>
-        <div class="stat-value">{{ healthy_crops|default:"0" }}</div>
-        <div class="stat-label">Healthy Crops</div>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon-wrapper" aria-hidden="true">💊</div>
-      <div>
-        <div class="stat-value">{{ active_treatments|default:"0" }}</div>
-        <div class="stat-label">Active Treatments</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       4. Recent Scans & Quick Actions Grid
-       ========================================================================== -->
-  <div class="dashboard-grid">
-    
-    <!-- Recent Scans Column -->
-    <section class="section-card" aria-labelledby="recent-scans-heading">
-      <div class="section-card-header">
-        <h2 id="recent-scans-heading" class="section-card-title">
-          <span>📋</span>
-          <span>Recent Scans</span>
-        </h2>
-        {% if recent_scans %}
-          <a href="{% url 'history' %}" class="btn btn-ghost btn-sm">View All</a>
-        {% endif %}
-      </div>
-
-      {% if recent_scans %}
-        <div class="scans-list">
-          {% for scan in recent_scans %}
-            <div class="scan-item">
-              <div class="scan-meta">
-                <span class="scan-icon">🍃</span>
-                <div>
-                  <div class="scan-plant-name">{{ scan.plant_name|default:"Crop Scan" }}</div>
-                  <div class="scan-date">{{ scan.created_at|date:"M d, Y" }}</div>
-                </div>
-              </div>
-              <div>
-                <span class="badge {% if scan.is_healthy %}badge-success{% else %}badge-warning{% endif %}">
-                  {{ scan.diagnosis|default:"Diagnosed" }}
-                </span>
-              </div>
-            </div>
-          {% endfor %}
+        <h1 class="dash-greeting-h1">
+          Welcome back, {{ user.first_name|default:user.username|default:"Yaswanth" }}! 👋
+        </h1>
+        <div class="dash-greeting-sub">
+          Here's what's happening with your crops today.
         </div>
-      {% else %}
-        <!-- Clean Empty State ready for dynamic backend data -->
-        <div class="empty-state">
-          <div class="empty-state-icon" aria-hidden="true">🪴</div>
-          <h3 class="empty-state-title">No Scans Recorded Yet</h3>
-          <p class="empty-state-desc">
-            Diagnose your first crop leaf to start building your plant health and treatment history.
-          </p>
-          <a href="{% url 'detection' %}" class="btn btn-outline btn-sm">
-            <span>Diagnose a Leaf Now</span>
+      </div>
+
+      <div class="dash-user-cluster">
+        <button type="button" class="dash-bell-btn" title="Notifications" onclick="alert('You have 3 active disease alert notices.');">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="dash-badge-count">3</span>
+        </button>
+
+        <a href="{% url 'profile' %}" class="dash-user-profile-pill" title="User Profile">
+          <div class="dash-avatar-circle">
+            {{ user.first_name|default:user.username|default:"Y"|slice:":1"|upper }}
+          </div>
+          <span>{{ user.first_name|default:user.username|default:"Yaswanth" }}</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="dash-content-area">
+
+      <!-- ======================================================================
+           3. 4 KPI Metric Cards (Row 1)
+           ====================================================================== -->
+      <section class="dash-metric-grid" aria-label="Crop Metrics">
+        <!-- 1. Total Scans -->
+        <div class="dash-metric-card">
+          <div>
+            <div class="dash-metric-label">Total Scans</div>
+            <div class="dash-metric-number">{{ total_scans|default:"24" }}</div>
+            <div class="dash-metric-sub">All time</div>
+          </div>
+          <div class="dash-metric-icon-wrap icon-seedling">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22v-9"></path>
+              <path d="M9 10a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 3-3 5-3 5s-3-2-3-5z"></path>
+              <path d="M6 17a3 3 0 0 1 3-3c2 0 3 2 3 2"></path>
+              <path d="M18 17a3 3 0 0 0-3-3c-2 0-3 2-3 2"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 2. This Month -->
+        <div class="dash-metric-card">
+          <div>
+            <div class="dash-metric-label">This Month</div>
+            <div class="dash-metric-number">8</div>
+            <div class="dash-metric-sub">Scans</div>
+          </div>
+          <div class="dash-metric-icon-wrap icon-calendar">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3. Healthy -->
+        <div class="dash-metric-card">
+          <div>
+            <div class="dash-metric-label">Healthy</div>
+            <div class="dash-metric-number">{{ healthy_crops|default:"16" }}</div>
+            <div class="dash-metric-sub">66.7%</div>
+          </div>
+          <div class="dash-metric-icon-wrap">
+            <span class="icon-check-circle">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- 4. Attention -->
+        <div class="dash-metric-card">
+          <div>
+            <div class="dash-metric-label">Attention</div>
+            <div class="dash-metric-number">{{ active_treatments|default:"8" }}</div>
+            <div class="dash-metric-sub">33.3%</div>
+          </div>
+          <div class="dash-metric-icon-wrap icon-warning-triangle">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           4. Quick Actions Section (4 Cards Row)
+           ====================================================================== -->
+      <section aria-labelledby="quick-actions-title">
+        <h2 id="quick-actions-title" class="dash-section-title">Quick Actions</h2>
+
+        <div class="dash-actions-4grid">
+          <!-- Action 1: New Disease Detection -->
+          <a href="{% url 'detection' %}" class="dash-action-box">
+            <div>
+              <div class="dash-action-head">New Disease Detection</div>
+              <div class="dash-action-desc">Upload plant image to detect disease</div>
+            </div>
+            <div class="dash-action-bottom-icon">
+              <span class="plus-circle-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- Action 2: View History -->
+          <a href="{% url 'history' %}" class="dash-action-box">
+            <div>
+              <div class="dash-action-head">View History</div>
+              <div class="dash-action-desc">See your previous detection results</div>
+            </div>
+            <div class="dash-action-bottom-icon action-green-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <line x1="9" y1="12" x2="15" y2="12"></line>
+                <line x1="9" y1="16" x2="13" y2="16"></line>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Action 3: Weather -->
+          <a href="#weather-overview" class="dash-action-box">
+            <div>
+              <div class="dash-action-head">Weather</div>
+              <div class="dash-action-desc">Check local weather &amp; farming insights</div>
+            </div>
+            <div class="dash-action-bottom-icon action-green-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="M20 12h2"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+                <path d="M15.94 15.94A5 5 0 0 0 12 7a5 5 0 0 0-3.94 8"></path>
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Action 4: Profile -->
+          <a href="{% url 'profile' %}" class="dash-action-box">
+            <div>
+              <div class="dash-action-head">Profile</div>
+              <div class="dash-action-desc">Manage your account and preferences</div>
+            </div>
+            <div class="dash-action-bottom-icon action-green-icon">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
           </a>
         </div>
-      {% endif %}
-    </section>
+      </section>
 
-    <!-- Quick Actions Column -->
-    <aside class="section-card" aria-labelledby="quick-actions-heading">
-      <div class="section-card-header">
-        <h2 id="quick-actions-heading" class="section-card-title">
-          <span>⚡</span>
-          <span>Quick Actions</span>
-        </h2>
+      <!-- ======================================================================
+           5. Lower Split: Recent Detections & Weather Overview (50% / 50%)
+           ====================================================================== -->
+      <div class="dash-bottom-split">
+
+        <!-- Panel 1: Recent Detections -->
+        <section class="dash-white-card" aria-labelledby="recent-detections-title">
+          <div>
+            <div class="card-top-header">
+              <h3 id="recent-detections-title" class="card-top-title">Recent Detections</h3>
+            </div>
+
+            <div class="detection-list">
+              <!-- Item 1: Tomato Leaf -->
+              <div class="detection-row-item">
+                <div class="detection-item-left">
+                  <div class="detection-thumbnail" style="background: #fef08a; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    🍅
+                  </div>
+                  <div>
+                    <div class="detection-item-crop">Tomato Leaf</div>
+                    <div class="detection-item-disease">Early Blight</div>
+                  </div>
+                </div>
+                <div class="detection-item-right">
+                  <span class="badge-attention">Attention</span>
+                  <span class="detection-item-time">2 days ago</span>
+                </div>
+              </div>
+
+              <!-- Item 2: Potato Leaf -->
+              <div class="detection-row-item">
+                <div class="detection-item-left">
+                  <div class="detection-thumbnail" style="background: #fed7aa; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    🥔
+                  </div>
+                  <div>
+                    <div class="detection-item-crop">Potato Leaf</div>
+                    <div class="detection-item-disease">Late Blight</div>
+                  </div>
+                </div>
+                <div class="detection-item-right">
+                  <span class="badge-attention">Attention</span>
+                  <span class="detection-item-time">5 days ago</span>
+                </div>
+              </div>
+
+              <!-- Item 3: Rice Leaf -->
+              <div class="detection-row-item">
+                <div class="detection-item-left">
+                  <div class="detection-thumbnail" style="background: #bbf7d0; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                    🌾
+                  </div>
+                  <div>
+                    <div class="detection-item-crop">Rice Leaf</div>
+                    <div class="detection-item-disease">Healthy</div>
+                  </div>
+                </div>
+                <div class="detection-item-right">
+                  <span class="badge-healthy">Healthy</span>
+                  <span class="detection-item-time">1 week ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="{% url 'history' %}" class="dash-bottom-link">
+            View all history &rarr;
+          </a>
+        </section>
+
+        <!-- Panel 2: Weather Overview -->
+        <aside class="dash-white-card" id="weather-overview" aria-labelledby="weather-card-title">
+          <div>
+            <div class="card-top-header">
+              <h3 id="weather-card-title" class="card-top-title">Weather Overview</h3>
+              <span class="card-top-meta">Updated just now</span>
+            </div>
+
+            <div class="weather-location-text">Tiruppur, Tamil Nadu</div>
+
+            <div class="weather-hero-row">
+              <div class="weather-temp-big">28°C</div>
+              <div class="weather-desc-side">
+                <span class="weather-state-txt">Partly Cloudy</span>
+                <span class="weather-sun-cloud-icon" style="font-size: 2.25rem;">⛅</span>
+              </div>
+            </div>
+
+            <!-- 4 Weather Stats Grid -->
+            <div class="weather-4stats-grid">
+              <div class="weather-stat-entry">
+                <span class="stat-entry-label">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#0284c7" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                  Humidity
+                </span>
+                <span class="stat-entry-val">68%</span>
+              </div>
+
+              <div class="weather-stat-entry">
+                <span class="stat-entry-label">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#2563eb" stroke-width="2"><path d="M20 16.2A4.5 4.5 0 0 0 17.5 8h-1.8A7 7 0 1 0 4 14.9"></path><path d="M16 14v6"></path><path d="M8 14v6"></path><path d="M12 16v6"></path></svg>
+                  Rainfall
+                </span>
+                <span class="stat-entry-val">2.4 mm</span>
+              </div>
+
+              <div class="weather-stat-entry">
+                <span class="stat-entry-label">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#64748b" stroke-width="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
+                  Wind
+                </span>
+                <span class="stat-entry-val">16 km/h</span>
+              </div>
+
+              <div class="weather-stat-entry">
+                <span class="stat-entry-label">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ea580c" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path></svg>
+                  Feels like
+                </span>
+                <span class="stat-entry-val">29°C</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="#weather-overview" class="dash-bottom-link" onclick="alert('Full weather forecast: Optimal growing conditions expected for the next 4 days.'); return false;">
+            View full weather &rarr;
+          </a>
+        </aside>
+
       </div>
 
-      <nav class="quick-actions-list" aria-label="Dashboard Quick Actions">
-        <a href="{% url 'detection' %}" class="quick-action-item">
-          <div class="quick-action-info">
-            <span class="quick-action-icon">📸</span>
-            <span class="quick-action-title">New Disease Scan</span>
-          </div>
-          <span class="quick-action-arrow">&rarr;</span>
-        </a>
-
-        <a href="{% url 'history' %}" class="quick-action-item">
-          <div class="quick-action-info">
-            <span class="quick-action-icon">📜</span>
-            <span class="quick-action-title">Scan History</span>
-          </div>
-          <span class="quick-action-arrow">&rarr;</span>
-        </a>
-
-        <a href="{% url 'profile' %}" class="quick-action-item">
-          <div class="quick-action-info">
-            <span class="quick-action-icon">👤</span>
-            <span class="quick-action-title">Profile Settings</span>
-          </div>
-          <span class="quick-action-arrow">&rarr;</span>
-        </a>
-      </nav>
-    </aside>
-
-  </div>
+    </div>
+  </main>
 
 </div>
+
+<!-- ==========================================================================
+     6. Logout Confirmation Modal (Image 1 Mockup Exact)
+     ========================================================================== -->
+<div id="logout-modal-dialog" class="logout-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+  <div class="logout-modal-card">
+    
+    <!-- Top Green Exit Icon Bubble -->
+    <div class="logout-icon-bubble">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </div>
+
+    <!-- Title & Subtitle -->
+    <h2 id="logout-title" class="logout-modal-heading">Logout</h2>
+    <p class="logout-modal-text">
+      Are you sure you want to log out from Flora AI?
+    </p>
+
+    <!-- Cancel and Yes, Logout Buttons -->
+    <div class="logout-modal-button-row">
+      <button type="button" id="cancel-logout-modal-btn" class="btn-cancel-modal">
+        Cancel
+      </button>
+
+      <a href="{% url 'logout' %}" id="confirm-logout-modal-btn" class="btn-confirm-modal">
+        Yes, Logout
+      </a>
+    </div>
+
+    <!-- Centered Flora AI Logo at Bottom -->
+    <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo" class="logout-modal-branding">
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const openModalBtn = document.getElementById('trigger-logout-modal');
+  const modalDialog = document.getElementById('logout-modal-dialog');
+  const cancelBtn = document.getElementById('cancel-logout-modal-btn');
+
+  if (openModalBtn && modalDialog) {
+    // Open modal
+    openModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalDialog.classList.add('is-active');
+    });
+
+    // Close on Cancel button
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', () => {
+        modalDialog.classList.remove('is-active');
+      });
+    }
+
+    // Close on backdrop click outside box
+    modalDialog.addEventListener('click', (e) => {
+      if (e.target === modalDialog) {
+        modalDialog.classList.remove('is-active');
+      }
+    });
+
+    // Close on Escape key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalDialog.classList.contains('is-active')) {
+        modalDialog.classList.remove('is-active');
+      }
+    });
+  }
+});
+</script>
 {% endblock %}
