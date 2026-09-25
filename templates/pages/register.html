@@ -6,7 +6,7 @@
 {% block meta_description %}Create your account and start protecting your crops with AI disease detection and precision farming insights.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}?v=2.2">
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -17,8 +17,8 @@
   <div class="auth-split-card">
 
     <!-- Left Visual Panel (PAGE-002 - REGISTRATION PAGE) -->
-    <aside class="auth-panel-visual" aria-label="Flora AI Agronomy Protection">
-      <div>
+    <aside class="auth-panel-visual register-visual" aria-label="Flora AI Agronomy Protection">
+      <div class="auth-visual-content">
         <a href="{% url 'home' %}" class="visual-top-logo" title="Back to Home">
           <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo">
         </a>
@@ -56,8 +56,8 @@
         </ul>
       </div>
 
-      <div class="visual-bottom-art">
-        <img src="{% static 'images/auth-seedling.jpg' %}" alt="Protecting Crops Seedling">
+      <div class="auth-visual-artwork">
+        <img src="{% static 'images/auth-seedling.jpg' %}" alt="Protecting Crops Seedling Sprout" class="auth-artwork-image">
       </div>
     </aside>
 

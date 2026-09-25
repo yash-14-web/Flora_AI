@@ -6,7 +6,7 @@
 {% block meta_description %}Login to continue your smart farming journey with Flora AI crop disease detection.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}?v=2.2">
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -17,8 +17,8 @@
   <div class="auth-split-card">
 
     <!-- Left Visual Panel (PAGE-003 - LOGIN PAGE) -->
-    <aside class="auth-panel-visual" aria-label="Flora AI Welcome Panel">
-      <div>
+    <aside class="auth-panel-visual login-visual" aria-label="Flora AI Welcome Panel">
+      <div class="auth-visual-content">
         <a href="{% url 'home' %}" class="visual-top-logo" title="Back to Home">
           <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo">
         </a>
@@ -29,8 +29,8 @@
         </p>
       </div>
 
-      <div class="visual-bottom-art">
-        <img src="{% static 'images/auth-ai-leaf.jpg' %}" alt="AI Agricultural Sprout">
+      <div class="auth-visual-artwork">
+        <img src="{% static 'images/auth-ai-leaf.jpg' %}" alt="AI Smart Farming Agricultural Sprout" class="auth-artwork-image">
       </div>
     </aside>
 

@@ -31,7 +31,7 @@
 }
 
 /* ==========================================================================
-   Left Banner Column (Dark Forest Green)
+   Left Banner Column (Dark Forest Green - Single Cohesive Artwork)
    ========================================================================== */
 .auth-panel-visual {
   flex: 1;
@@ -40,10 +40,17 @@
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 2.75rem 2.5rem;
+  justify-content: flex-start;
+  padding: 0;
   position: relative;
   overflow: hidden;
+  z-index: 1;
+}
+
+.auth-visual-content {
+  padding: 2.75rem 2.5rem 1rem 2.5rem;
+  position: relative;
+  z-index: 3;
 }
 
 .visual-top-logo {
@@ -66,6 +73,7 @@
   color: #ffffff;
   margin-bottom: 0.85rem;
   letter-spacing: -0.025em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .visual-subtext {
@@ -73,13 +81,14 @@
   line-height: 1.55;
   color: #e2e8f0;
   margin-bottom: 2rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
 }
 
 /* 4 Feature Checkmarks (PAGE-002) */
 .auth-check-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 2rem 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
@@ -92,6 +101,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: #f8fafc;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
 }
 
 .auth-check-icon {
@@ -104,6 +114,7 @@
   background-color: #22c55e;
   color: #064024;
   flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .auth-check-icon svg {
@@ -114,22 +125,55 @@
   fill: none;
 }
 
-/* Bottom Seedling Artwork Container */
-.visual-bottom-art {
-  margin-top: auto;
-  border-radius: 14px;
+/* ==========================================================================
+   Full-Bleed Unified Artwork Integration (No separate card / No PPT box)
+   ========================================================================== */
+.auth-visual-artwork {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
   overflow: hidden;
-  max-height: 260px;
-  display: flex;
-  align-items: flex-end;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  display: block;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
 }
 
-.visual-bottom-art img {
+.login-visual .auth-visual-artwork {
+  height: 58%;
+}
+
+.register-visual .auth-visual-artwork {
+  height: 45%;
+}
+
+.auth-artwork-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center bottom;
   display: block;
+}
+
+/* Seamless blend overlay at top of artwork */
+.auth-visual-artwork::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, #064024 0%, rgba(6, 64, 36, 0.6) 40%, rgba(6, 64, 36, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Backward compatibility for legacy visual-bottom-art */
+.visual-bottom-art {
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -420,6 +464,10 @@
 
   .auth-panel-visual {
     min-width: 100%;
+    padding: 0;
+  }
+
+  .auth-visual-content {
     padding: 2.25rem 1.75rem;
   }
 
@@ -427,6 +475,7 @@
     font-size: 1.75rem;
   }
 
+  .auth-visual-artwork,
   .visual-bottom-art {
     display: none;
   }

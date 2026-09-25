@@ -11,9 +11,21 @@
   {% endblock %}
 
   <!-- Master Base Stylesheet (Theme Tokens & Reusable Components) -->
-  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.2">
   {% block extra_css %}{% endblock %}
   {% block extra_head %}{% endblock %}
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('flora_theme');
+        if (savedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <div class="site-wrapper">
@@ -54,7 +66,7 @@
   {% block modals %}{% endblock %}
 
   <!-- Global JavaScript Foundation -->
-  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/main.js' %}?v=2.2"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

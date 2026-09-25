@@ -1,513 +1,669 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Agronomist Profile & Settings — Flora AI{% endblock %}
+{% block title %}Profile &amp; Settings — Flora AI{% endblock %}
 
-{% block meta_description %}Flora AI User Profile & Agronomist Settings. Manage your credentials, crop focus, organization settings, and AI disease alert preferences.{% endblock %}
+{% block meta_description %}Manage your Flora AI user profile, agronomist credentials, crop focus, and disease alert preferences.{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <style>
-  /* Profile Specific Layout & Components */
-  .profile-container {
-    padding: var(--space-6) 0 var(--space-12);
+  /* Profile Layout Extensions matching Dashboard Theme */
+  .profile-edit-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.75rem;
+    margin-top: 1.5rem;
   }
-  .profile-overview-card {
-    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.08) 100%);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-6) var(--space-8);
-    margin-bottom: var(--space-8);
-    box-shadow: var(--shadow-md);
+  .profile-banner-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    margin-bottom: 1.75rem;
   }
-  .profile-avatar-large {
-    width: 72px;
-    height: 72px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--color-primary-600), var(--color-secondary-600));
+  .profile-avatar-giant {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #16a34a, #059669);
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-family-heading);
-    font-size: var(--font-2xl);
-    font-weight: var(--weight-bold);
-    box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+    font-size: 1.85rem;
+    font-weight: 800;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+    flex-shrink: 0;
   }
-  .profile-stat-box {
-    text-align: center;
-    padding: var(--space-3) var(--space-5);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    min-width: 110px;
+  .profile-form-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   }
-  .profile-stat-value {
-    font-size: var(--font-xl);
-    font-weight: var(--weight-bold);
-    color: var(--color-primary-400);
-    line-height: 1.2;
+  .form-section-divider {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
   }
-  .profile-stat-label {
-    font-size: var(--font-xs);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: 2px;
-  }
-  .profile-form-section {
-    margin-bottom: var(--space-6);
-  }
-  .profile-form-section:not(:first-child) {
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--border-color);
-  }
-  .profile-section-heading {
-    font-size: var(--font-sm);
-    font-weight: var(--weight-semibold);
-    color: var(--color-primary-400);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-4);
+  .form-section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
   }
-  .profile-grid-2col {
+  .form-row-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+    gap: 1.25rem;
+    margin-bottom: 1.15rem;
   }
-  @media (max-width: 768px) {
-    .profile-grid-2col {
+  .field-wrap-dash {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .field-wrap-dash label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+  }
+  .field-wrap-dash input,
+  .field-wrap-dash select {
+    height: 44px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 9px;
+    padding: 0 0.85rem;
+    font-size: 0.92rem;
+    color: #0f172a;
+    background-color: #ffffff;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  .field-wrap-dash input:focus,
+  .field-wrap-dash select:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+  }
+  .field-wrap-dash input.is-invalid {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2;
+  }
+  .dash-save-btn {
+    height: 46px;
+    padding: 0 1.75rem;
+    background-color: #16a34a;
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.25);
+    transition: all 0.2s ease;
+  }
+  .dash-save-btn:hover {
+    background-color: #15803d;
+    transform: translateY(-1px);
+  }
+  .dash-cancel-link {
+    height: 46px;
+    padding: 0 1.5rem;
+    background-color: #ffffff;
+    color: #475569;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 9px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .dash-cancel-link:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+  }
+  .profile-side-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+  .profile-side-head {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .profile-detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f8fafc;
+  }
+  .profile-detail-label {
+    color: #64748b;
+  }
+  .profile-detail-val {
+    font-weight: 600;
+    color: #0f172a;
+  }
+  @media (max-width: 1024px) {
+    .profile-edit-grid {
       grid-template-columns: 1fr;
     }
-    .profile-overview-content {
-      flex-direction: column;
-      align-items: flex-start !important;
+    .form-row-2col {
+      grid-template-columns: 1fr;
     }
   }
 </style>
 {% endblock %}
 
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block content %}
-<div class="profile-container">
+<div class="dashboard-app-canvas">
 
-  <!-- ==========================================
-       1. BREADCRUMB & NAVIGATION HEADER
-       ========================================== -->
-  <header class="dashboard-header" style="margin-bottom: var(--space-6);">
-    <div class="dashboard-user-greeting">
-      <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2); flex-wrap: wrap;">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline btn-sm" id="btn-back-dashboard">
-          <svg viewBox="0 0 20 20" width="14" height="14" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
-          </svg>
-          <span>Back to Dashboard</span>
+  <!-- ==========================================================================
+       1. Left Sidebar Navigation (Matching Dashboard Theme)
+       ========================================================================== -->
+  <aside class="dash-sidebar" aria-label="Main Navigation">
+    <div>
+      <div class="dash-sidebar-logo">
+        <a href="{% url 'dashboard' %}" title="Flora AI Dashboard">
+          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo">
         </a>
-        <div class="dashboard-status-indicator" style="margin: 0; padding: 0.25rem 0.65rem;">
-          <span class="status-dot"></span>
-          <span>Agronomist Profile Active</span>
-        </div>
-      </div>
-      <h1 class="dashboard-title">
-        User Profile & Preferences
-      </h1>
-      <p class="dashboard-subtitle">
-        Manage your personal credentials, agronomist organization settings, and AI plant health diagnostics preferences.
-      </p>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
-      <a href="{% url 'dashboard' %}" class="btn btn-ghost btn-sm">
-        <span>📊 Dashboard</span>
-      </a>
-      <a href="{% url 'detection' %}" class="btn btn-primary btn-sm">
-        <span>🌿 New Scan</span>
-      </a>
-    </div>
-  </header>
-
-  <!-- ==========================================
-       2. TOP PROFILE OVERVIEW BANNER CARD
-       ========================================== -->
-  <section class="profile-overview-card" aria-label="Profile Summary Header">
-    <div class="profile-overview-content" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6);">
-      
-      <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap;">
-        <div class="profile-avatar-large" aria-hidden="true">
-          {{ user.username|slice:":1"|upper|default:"A" }}
-        </div>
-        <div>
-          <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-1);">
-            <h2 style="font-size: var(--font-2xl); font-weight: var(--weight-bold); color: var(--text-primary); margin-bottom: 0;">
-              {{ user.get_full_name|default:user.username }}
-            </h2>
-            <span class="badge badge-success">Active Agronomist</span>
-          </div>
-          <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-bottom: var(--space-2);">
-            <span>@{{ user.username }}</span> &bull; 
-            <span style="color: var(--color-primary-400);">{{ user.email }}</span>
-          </p>
-          <p style="font-size: var(--font-xs); color: var(--text-muted); margin-bottom: 0;">
-            🏢 {{ profile.organization|default:"Flora Precision Agronomy" }} &bull; 📍 {{ profile.location|default:"Farm Location Not Set" }}
-          </p>
-        </div>
       </div>
 
-      <div style="display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap;">
-        <div class="profile-stat-box">
-          <div class="profile-stat-value">14</div>
-          <div class="profile-stat-label">Total Scans</div>
-        </div>
-        <div class="profile-stat-box">
-          <div class="profile-stat-value" style="color: var(--color-secondary-400);">98.4%</div>
-          <div class="profile-stat-label">Model Avg</div>
+      <ul class="dash-nav-menu">
+        <li class="dash-nav-item">
+          <a href="{% url 'dashboard' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'detection' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="22" y1="12" x2="18" y2="12"></line>
+                <line x1="6" y1="12" x2="2" y2="12"></line>
+                <line x1="12" y1="6" x2="12" y2="2"></line>
+                <line x1="12" y1="22" x2="12" y2="18"></line>
+              </svg>
+            </span>
+            <span>Disease Detection</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'history' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </span>
+            <span>Detection History</span>
+          </a>
+        </li>
+
+        <li class="dash-nav-item">
+          <a href="{% url 'dashboard' %}#weather-overview" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+              </svg>
+            </span>
+            <span>Weather Intelligence</span>
+          </a>
+        </li>
+
+        <!-- Active Profile Tab -->
+        <li class="dash-nav-item active">
+          <a href="{% url 'profile' %}" class="dash-nav-link">
+            <span class="dash-nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Bottom Sidebar Logout Trigger -->
+    <div class="dash-sidebar-bottom">
+      <button type="button" id="trigger-logout-modal" class="dash-logout-btn">
+        <span class="dash-nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       2. Main Profile Workspace Pane
+       ========================================================================== -->
+  <main class="dash-main-pane">
+
+    <!-- Top Header Bar -->
+    <header class="dash-top-header">
+      <div>
+        <h1 class="dash-greeting-h1">
+          Profile &amp; Settings 👤
+        </h1>
+        <div class="dash-greeting-sub">
+          Manage your personal credentials, agronomist organization, and AI diagnostic preferences.
         </div>
       </div>
 
-    </div>
-  </section>
+      <div class="dash-user-cluster">
+        <a href="{% url 'dashboard' %}" class="dash-cancel-link" style="height: 38px; font-size: 0.85rem; padding: 0 1rem;">
+          &larr; Back to Dashboard
+        </a>
 
-  <!-- ==========================================
-       3. MAIN PROFILE EDIT & SETTINGS GRID
-       ========================================== -->
-  <div class="dashboard-grid">
-    
-    <!-- LEFT / MAIN CONTENT COLUMN: EDIT PROFILE INTERFACE -->
-    <div class="dashboard-main-col">
-      
-      <section class="card" aria-labelledby="profile-edit-heading" style="padding: var(--space-6);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border-color);">
-          <div style="display: flex; align-items: center; gap: var(--space-2);">
-            <span style="font-size: 1.2rem;">📝</span>
-            <h3 id="profile-edit-heading" style="font-size: var(--font-lg); font-weight: var(--weight-semibold); color: var(--text-primary); margin: 0;">
-              Edit Profile Information
-            </h3>
+        <div class="dash-user-profile-pill">
+          <div class="dash-avatar-circle">
+            {{ user.first_name|default:user.username|default:"Y"|slice:":1"|upper }}
           </div>
-          <span class="badge badge-success">Editable</span>
+          <span>{{ user.first_name|default:user.username }}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="dash-content-area">
+
+      <!-- Top Profile Overview Banner Card -->
+      <section class="profile-banner-card">
+        <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+          <div class="profile-avatar-giant">
+            {{ user.first_name|default:user.username|default:"A"|slice:":1"|upper }}
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
+              <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">
+                {{ user.get_full_name|default:user.username }}
+              </h2>
+              <span class="badge-healthy">Active Agronomist</span>
+            </div>
+            <div style="font-size: 0.88rem; color: #64748b; margin-bottom: 0.35rem;">
+              <span>@{{ user.username }}</span> &bull; 
+              <span style="color: #16a34a; font-weight: 600;">{{ user.email }}</span>
+            </div>
+            <div style="font-size: 0.82rem; color: #94a3b8;">
+              🏢 {{ profile.organization|default:"Flora Precision Agronomy" }} &bull; 📍 {{ profile.location|default:"Farm Location Not Set" }}
+            </div>
+          </div>
         </div>
 
-        <form method="post" action="{% url 'profile' %}" id="profile-update-form" novalidate>
-          {% csrf_token %}
-
-          {% if form.errors %}
-            <div class="alert alert-danger" role="alert" style="margin-bottom: var(--space-6);">
-              <div>
-                {% if form.non_field_errors %}
-                  {% for error in form.non_field_errors %}
-                    <p style="margin: 0;">{{ error }}</p>
-                  {% endfor %}
-                {% else %}
-                  <p style="margin: 0;">Please review and resolve the errors below.</p>
-                {% endif %}
-              </div>
-            </div>
-          {% endif %}
-
-          <!-- Section 1: Personal & Contact Information -->
-          <div class="profile-form-section">
-            <h4 class="profile-section-heading">
-              <span>👤</span> 1. Personal & Contact Information
-            </h4>
-
-            <div class="profile-grid-2col">
-              <div class="form-group">
-                <label for="first_name" class="input-label">First Name</label>
-                <input 
-                  type="text" 
-                  id="first_name" 
-                  name="first_name" 
-                  class="input-field {% if form.first_name.errors %}is-invalid{% endif %}" 
-                  value="{{ form.first_name.value|default:'' }}" 
-                  placeholder="e.g. Nandini"
-                >
-                {% if form.first_name.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.first_name.errors.0 }}</div>
-                {% endif %}
-              </div>
-
-              <div class="form-group">
-                <label for="last_name" class="input-label">Last Name</label>
-                <input 
-                  type="text" 
-                  id="last_name" 
-                  name="last_name" 
-                  class="input-field {% if form.last_name.errors %}is-invalid{% endif %}" 
-                  value="{{ form.last_name.value|default:'' }}" 
-                  placeholder="e.g. Lakkisetty"
-                >
-                {% if form.last_name.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.last_name.errors.0 }}</div>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="profile-grid-2col">
-              <div class="form-group">
-                <label for="email" class="input-label">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email" 
-                  class="input-field {% if form.email.errors %}is-invalid{% endif %}" 
-                  value="{{ form.email.value|default:'' }}" 
-                  required
-                  placeholder="e.g. agronomist@flora.ai"
-                >
-                {% if form.email.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.email.errors.0 }}</div>
-                {% endif %}
-              </div>
-
-              <div class="form-group">
-                <label for="phone" class="input-label">Phone / Contact</label>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  name="phone" 
-                  class="input-field {% if form.phone.errors %}is-invalid{% endif %}" 
-                  value="{{ form.phone.value|default:'' }}" 
-                  placeholder="+1 (555) 000-0000"
-                >
-                {% if form.phone.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.phone.errors.0 }}</div>
-                {% endif %}
-              </div>
-            </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <div style="text-align: center; padding: 0.75rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a;">24</div>
+            <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Total Scans</div>
           </div>
-
-          <!-- Section 2: Organization & Agronomy Specialization -->
-          <div class="profile-form-section">
-            <h4 class="profile-section-heading">
-              <span>🌱</span> 2. Agronomy & Farm Information
-            </h4>
-
-            <div class="profile-grid-2col">
-              <div class="form-group">
-                <label for="organization" class="input-label">Organization / Farm Name</label>
-                <input 
-                  type="text" 
-                  id="organization" 
-                  name="organization" 
-                  class="input-field {% if form.organization.errors %}is-invalid{% endif %}" 
-                  value="{{ form.organization.value|default:'' }}" 
-                  placeholder="e.g. Flora Precision Agronomy"
-                >
-                {% if form.organization.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.organization.errors.0 }}</div>
-                {% endif %}
-              </div>
-
-              <div class="form-group">
-                <label for="location" class="input-label">Region / Agricultural Zone</label>
-                <input 
-                  type="text" 
-                  id="location" 
-                  name="location" 
-                  class="input-field {% if form.location.errors %}is-invalid{% endif %}" 
-                  value="{{ form.location.value|default:'' }}" 
-                  placeholder="e.g. Central Valley Ag District"
-                >
-                {% if form.location.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.location.errors.0 }}</div>
-                {% endif %}
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="specialization" class="input-label">Agronomic Specialization & Focus Areas</label>
-              <input 
-                type="text" 
-                id="specialization" 
-                name="specialization" 
-                class="input-field {% if form.specialization.errors %}is-invalid{% endif %}" 
-                value="{{ form.specialization.value|default:'' }}" 
-                placeholder="e.g. Crop Pathology, Hydroponics, Leaf Fungal Disease Detection"
-              >
-              {% if form.specialization.errors %}
-                <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.specialization.errors.0 }}</div>
-              {% endif %}
-            </div>
+          <div style="text-align: center; padding: 0.75rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #2563eb;">98.4%</div>
+            <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">AI Accuracy</div>
           </div>
-
-          <!-- Section 3: Diagnostic Preferences -->
-          <div class="profile-form-section">
-            <h4 class="profile-section-heading">
-              <span>⚙️</span> 3. Diagnostic & System Preferences
-            </h4>
-
-            <div class="profile-grid-2col">
-              <div class="form-group">
-                <label for="crop_focus" class="input-label">Default Crop Focus List</label>
-                <input 
-                  type="text" 
-                  id="crop_focus" 
-                  name="crop_focus" 
-                  class="input-field {% if form.crop_focus.errors %}is-invalid{% endif %}" 
-                  value="{{ form.crop_focus.value|default:'' }}" 
-                  placeholder="e.g. Tomatoes, Corn, Potatoes"
-                >
-                {% if form.crop_focus.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.crop_focus.errors.0 }}</div>
-                {% endif %}
-              </div>
-
-              <div class="form-group">
-                <label for="measurement_unit" class="input-label">Measurement Standard</label>
-                <select id="measurement_unit" name="measurement_unit" class="input-field" style="cursor: pointer;">
-                  <option value="Metric" {% if form.measurement_unit.value == 'Metric' or not form.measurement_unit.value %}selected{% endif %}>Metric (Celsius, Hectares)</option>
-                  <option value="Imperial" {% if form.measurement_unit.value == 'Imperial' %}selected{% endif %}>Imperial (Fahrenheit, Acres)</option>
-                </select>
-                {% if form.measurement_unit.errors %}
-                  <div class="form-error" style="color: var(--color-danger); font-size: var(--font-xs); margin-top: 4px;">{{ form.measurement_unit.errors.0 }}</div>
-                {% endif %}
-              </div>
-            </div>
-
-            <div style="margin-top: var(--space-3); padding: var(--space-4); background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-lg);">
-              <label style="display: flex; align-items: center; gap: var(--space-3); cursor: pointer; user-select: none; margin: 0;">
-                <input 
-                  type="checkbox" 
-                  id="notifications_enabled" 
-                  name="notifications_enabled" 
-                  {% if form.notifications_enabled.value %}checked{% endif %}
-                  style="width: 18px; height: 18px; accent-color: var(--color-primary-500); cursor: pointer;"
-                >
-                <div>
-                  <span style="font-size: var(--font-sm); font-weight: var(--weight-medium); color: var(--text-primary); display: block;">
-                    Receive High-Severity Disease Detection Alerts
-                  </span>
-                  <span style="font-size: var(--font-xs); color: var(--text-secondary); display: block;">
-                    Receive automated notifications when an AI scan detects high-risk pathogen infections.
-                  </span>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Save / Update Interface Actions -->
-          <div style="padding-top: var(--space-6); border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
-            <div style="display: flex; gap: var(--space-3); align-items: center;">
-              <button type="submit" id="profile-save-btn" class="btn btn-primary btn-lg">
-                <span class="btn-text">💾 Save Changes</span>
-                <span class="spinner" id="profile-spinner" style="display: none;"></span>
-              </button>
-              <a href="{% url 'dashboard' %}" class="btn btn-outline btn-lg">
-                Cancel
-              </a>
-            </div>
-
-            <div style="font-size: var(--font-xs); color: var(--text-muted);">
-              Last synchronized: <strong style="color: var(--text-secondary);">Today</strong>
-            </div>
-          </div>
-
-        </form>
-
+        </div>
       </section>
 
+      <!-- Main Edit Grid (Form + Sidebar) -->
+      <div class="profile-edit-grid">
+        
+        <!-- Left Column: Form -->
+        <section class="profile-form-box">
+          <form method="post" action="{% url 'profile' %}" id="profile-form" novalidate>
+            {% csrf_token %}
+
+            <!-- Section 1: Personal & Contact -->
+            <div>
+              <h3 class="form-section-title">
+                <span>👤</span> Personal &amp; Contact Information
+              </h3>
+
+              <div class="form-row-2col">
+                <div class="field-wrap-dash">
+                  <label for="first_name">First Name</label>
+                  <input 
+                    type="text" 
+                    id="first_name" 
+                    name="first_name" 
+                    class="{% if form.first_name.errors %}is-invalid{% endif %}" 
+                    value="{{ form.first_name.value|default:'' }}" 
+                    placeholder="e.g. Yaswanth"
+                  >
+                </div>
+
+                <div class="field-wrap-dash">
+                  <label for="last_name">Last Name</label>
+                  <input 
+                    type="text" 
+                    id="last_name" 
+                    name="last_name" 
+                    class="{% if form.last_name.errors %}is-invalid{% endif %}" 
+                    value="{{ form.last_name.value|default:'' }}" 
+                    placeholder="e.g. Kumar"
+                  >
+                </div>
+              </div>
+
+              <div class="form-row-2col">
+                <div class="field-wrap-dash">
+                  <label for="email">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="{% if form.email.errors %}is-invalid{% endif %}" 
+                    value="{{ form.email.value|default:'' }}" 
+                    required 
+                    placeholder="farmer@flora.ai"
+                  >
+                  {% if form.email.errors %}
+                    <span style="font-size: 0.78rem; color: #ef4444;">{{ form.email.errors.0 }}</span>
+                  {% endif %}
+                </div>
+
+                <div class="field-wrap-dash">
+                  <label for="phone">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    class="{% if form.phone.errors %}is-invalid{% endif %}" 
+                    value="{{ form.phone.value|default:'' }}" 
+                    placeholder="+1 (555) 000-0000"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 2: Farm & Agronomy Details -->
+            <div class="form-section-divider">
+              <h3 class="form-section-title">
+                <span>🌱</span> Farm &amp; Agronomy Information
+              </h3>
+
+              <div class="form-row-2col">
+                <div class="field-wrap-dash">
+                  <label for="organization">Organization / Farm Name</label>
+                  <input 
+                    type="text" 
+                    id="organization" 
+                    name="organization" 
+                    class="{% if form.organization.errors %}is-invalid{% endif %}" 
+                    value="{{ form.organization.value|default:'' }}" 
+                    placeholder="e.g. Green Valley Farms"
+                  >
+                </div>
+
+                <div class="field-wrap-dash">
+                  <label for="location">Region / Agricultural Zone</label>
+                  <input 
+                    type="text" 
+                    id="location" 
+                    name="location" 
+                    class="{% if form.location.errors %}is-invalid{% endif %}" 
+                    value="{{ form.location.value|default:'' }}" 
+                    placeholder="e.g. Tiruppur, Tamil Nadu"
+                  >
+                </div>
+              </div>
+
+              <div class="field-wrap-dash">
+                <label for="specialization">Agronomic Specialization &amp; Focus</label>
+                <input 
+                  type="text" 
+                  id="specialization" 
+                  name="specialization" 
+                  class="{% if form.specialization.errors %}is-invalid{% endif %}" 
+                  value="{{ form.specialization.value|default:'' }}" 
+                  placeholder="e.g. Tomato Pathology, Crop Disease Management, Fungal Leaf Spot Prevention"
+                >
+              </div>
+            </div>
+
+            <!-- Section 3: Diagnostic Preferences -->
+            <div class="form-section-divider">
+              <h3 class="form-section-title">
+                <span>⚙️</span> Diagnostic &amp; Notification Preferences
+              </h3>
+
+              <div class="form-row-2col">
+                <div class="field-wrap-dash">
+                  <label for="crop_focus">Default Crop Focus List</label>
+                  <input 
+                    type="text" 
+                    id="crop_focus" 
+                    name="crop_focus" 
+                    class="{% if form.crop_focus.errors %}is-invalid{% endif %}" 
+                    value="{{ form.crop_focus.value|default:'' }}" 
+                    placeholder="e.g. Tomato, Rice, Potato, Chilli, Wheat"
+                  >
+                </div>
+
+                <div class="field-wrap-dash">
+                  <label for="measurement_unit">Measurement Standard</label>
+                  <select id="measurement_unit" name="measurement_unit">
+                    <option value="Metric" {% if form.measurement_unit.value == 'Metric' or not form.measurement_unit.value %}selected{% endif %}>Metric (Celsius, Hectares)</option>
+                    <option value="Imperial" {% if form.measurement_unit.value == 'Imperial' %}selected{% endif %}>Imperial (Fahrenheit, Acres)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="margin-top: 0.85rem; padding: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;">
+                <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; user-select: none;">
+                  <input 
+                    type="checkbox" 
+                    id="notifications_enabled" 
+                    name="notifications_enabled" 
+                    {% if form.notifications_enabled.value %}checked{% endif %}
+                    style="width: 18px; height: 18px; accent-color: #16a34a; cursor: pointer;"
+                  >
+                  <div>
+                    <span style="font-size: 0.9rem; font-weight: 600; color: #0f172a; display: block;">
+                      Receive High-Severity Disease Detection Alerts
+                    </span>
+                    <span style="font-size: 0.78rem; color: #64748b;">
+                      Receive real-time notifications when an AI scan detects high-risk pathogen infections in your region.
+                    </span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Form Action Buttons -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              <div style="display: flex; gap: 0.85rem; align-items: center;">
+                <button type="submit" id="profile-save-btn" class="dash-save-btn">
+                  <span>💾 Save Changes</span>
+                </button>
+                <a href="{% url 'dashboard' %}" class="dash-cancel-link">
+                  Cancel
+                </a>
+              </div>
+
+              <div style="font-size: 0.82rem; color: #94a3b8;">
+                Synchronized with Flora AI Cloud
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- Right Column: Shortcuts & Details -->
+        <aside>
+          <!-- Quick Portal Navigation -->
+          <div class="profile-side-card">
+            <h4 class="profile-side-head">
+              <span>🧭</span> Navigation
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <a href="{% url 'dashboard' %}" class="dash-cancel-link" style="justify-content: flex-start; height: 40px; font-size: 0.88rem;">
+                📊 Dashboard
+              </a>
+              <a href="{% url 'detection' %}" class="dash-cancel-link" style="justify-content: flex-start; height: 40px; font-size: 0.88rem;">
+                🌿 Detect Plant Disease
+              </a>
+              <a href="{% url 'history' %}" class="dash-cancel-link" style="justify-content: flex-start; height: 40px; font-size: 0.88rem;">
+                📋 Detection History
+              </a>
+            </div>
+          </div>
+
+          <!-- Account Security Summary -->
+          <div class="profile-side-card">
+            <h4 class="profile-side-head">
+              <span>🛡️</span> Account Summary
+            </h4>
+            <div class="profile-detail-item">
+              <span class="profile-detail-label">Account Role</span>
+              <span class="badge-healthy">Agronomist</span>
+            </div>
+            <div class="profile-detail-item">
+              <span class="profile-detail-label">Member Since</span>
+              <span class="profile-detail-val">{{ user.date_joined|date:"F Y"|default:"2026" }}</span>
+            </div>
+            <div class="profile-detail-item">
+              <span class="profile-detail-label">Security</span>
+              <span class="profile-detail-val" style="color: #16a34a;">Password Protected</span>
+            </div>
+            <div class="profile-detail-item">
+              <span class="profile-detail-label">AI Diagnostic Engine</span>
+              <span class="profile-detail-val">Flora AI v2.4</span>
+            </div>
+          </div>
+
+          <!-- Agronomic Intelligence Tip -->
+          <div class="profile-side-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem;">
+              <span style="font-size: 1.1rem;">💡</span>
+              <span style="font-size: 0.88rem; font-weight: 700; color: #065f46;">Agronomist Tip</span>
+            </div>
+            <p style="font-size: 0.8rem; color: #166534; line-height: 1.45; margin: 0;">
+              Keeping your crop focus and agricultural zone accurate helps Flora AI deliver microclimate-specific preventative fungicide advisories.
+            </p>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- ==========================================================================
+     Logout Modal (Matching Image 1 Exact Design)
+     ========================================================================== -->
+<div id="logout-modal-dialog" class="logout-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+  <div class="logout-modal-card">
+    
+    <!-- Top Green Exit Icon Bubble -->
+    <div class="logout-icon-bubble">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
     </div>
 
-    <!-- RIGHT / SIDEBAR COLUMN: PROFILE SUMMARY & QUICK NAVIGATION -->
-    <aside class="dashboard-sidebar-col" aria-label="Profile Shortcuts and Summary">
-      
-      <!-- Quick Navigation To Dashboard & Tools -->
-      <div class="user-widget-card">
-        <div style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-color);">
-          <span style="font-size: 1.2rem;">🧭</span>
-          <h4 style="font-size: var(--font-base); font-weight: var(--weight-semibold); color: var(--text-primary); margin: 0;">
-            Portal Navigation
-          </h4>
-        </div>
+    <!-- Title & Subtitle -->
+    <h2 id="logout-title" class="logout-modal-heading">Logout</h2>
+    <p class="logout-modal-text">
+      Are you sure you want to log out from Flora AI?
+    </p>
 
-        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-          <a href="{% url 'dashboard' %}" class="btn btn-outline" style="justify-content: flex-start; text-align: left; width: 100%;">
-            <span>📊</span>
-            <span>Return to Dashboard</span>
-          </a>
-          <a href="{% url 'detection' %}" class="btn btn-ghost" style="justify-content: flex-start; text-align: left; width: 100%;">
-            <span>🌿</span>
-            <span>Detect Plant Disease</span>
-          </a>
-          <a href="{% url 'history' %}" class="btn btn-ghost" style="justify-content: flex-start; text-align: left; width: 100%;">
-            <span>📑</span>
-            <span>Diagnosis Scan History</span>
-          </a>
-        </div>
-      </div>
+    <!-- Buttons -->
+    <div class="logout-modal-button-row">
+      <button type="button" id="cancel-logout-modal-btn" class="btn-cancel-modal">
+        Cancel
+      </button>
 
-      <!-- Account Credentials Summary Card -->
-      <div class="user-widget-card">
-        <div style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-color);">
-          <span style="font-size: 1.2rem;">🛡️</span>
-          <h4 style="font-size: var(--font-base); font-weight: var(--weight-semibold); color: var(--text-primary); margin: 0;">
-            Account Details
-          </h4>
-        </div>
+      <a href="{% url 'logout' %}" id="confirm-logout-modal-btn" class="btn-confirm-modal">
+        Yes, Logout
+      </a>
+    </div>
 
-        <div class="user-widget-details">
-          <div class="user-detail-row">
-            <span class="user-detail-label">Account Type</span>
-            <span class="badge badge-success">Lead Agronomist</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="user-detail-label">Member Since</span>
-            <span class="user-detail-value">{{ user.date_joined|date:"F Y"|default:"August 2026" }}</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="user-detail-label">Auth Provider</span>
-            <span class="user-detail-value">Flora AI Secure Auth</span>
-          </div>
-          <div class="user-detail-row">
-            <span class="user-detail-label">AI Engine</span>
-            <span class="user-detail-value" style="color: var(--color-primary-400);">Flora CNN v1.0</span>
-          </div>
-        </div>
-
-        <div style="margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border-color);">
-          <a href="{% url 'logout' %}" class="btn btn-outline btn-sm" style="width: 100%; justify-content: center; color: var(--color-danger); border-color: rgba(239, 68, 68, 0.3);">
-            Sign Out of Portal
-          </a>
-        </div>
-      </div>
-
-      <!-- Agro Intelligence Information Card -->
-      <div class="card" style="padding: var(--space-5);">
-        <div style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2);">
-          <span style="font-size: 1.1rem;">💡</span>
-          <h5 style="font-size: var(--font-sm); font-weight: var(--weight-semibold); color: var(--text-primary); margin: 0;">Profile Tip</h5>
-        </div>
-        <p style="font-size: var(--font-xs); color: var(--text-secondary); line-height: var(--line-height-normal); margin-bottom: 0;">
-          Keeping your default crop focus and agricultural zone up to date optimizes localized diagnosis insights and pathogen mitigation protocols.
-        </p>
-      </div>
-
-    </aside>
-
+    <!-- Official Flora AI Logo at Bottom -->
+    <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo" class="logout-modal-branding">
   </div>
-
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const profileForm = document.getElementById('profile-update-form');
-    if (profileForm) {
-      profileForm.addEventListener('submit', () => {
-        const saveBtn = document.getElementById('profile-save-btn');
-        if (saveBtn) {
-          const btnText = saveBtn.querySelector('.btn-text');
-          const spinner = document.getElementById('profile-spinner');
-          if (btnText && spinner) {
-            btnText.textContent = 'Saving Changes...';
-            spinner.style.display = 'inline-block';
-            saveBtn.disabled = true;
-          }
-        }
+document.addEventListener('DOMContentLoaded', () => {
+  const openModalBtn = document.getElementById('trigger-logout-modal');
+  const modalDialog = document.getElementById('logout-modal-dialog');
+  const cancelBtn = document.getElementById('cancel-logout-modal-btn');
+
+  if (openModalBtn && modalDialog) {
+    openModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalDialog.classList.add('is-active');
+    });
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', () => {
+        modalDialog.classList.remove('is-active');
       });
     }
-  });
+
+    modalDialog.addEventListener('click', (e) => {
+      if (e.target === modalDialog) {
+        modalDialog.classList.remove('is-active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalDialog.classList.contains('is-active')) {
+        modalDialog.classList.remove('is-active');
+      }
+    });
+  }
+});
 </script>
 {% endblock %}

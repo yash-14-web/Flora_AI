@@ -6,7 +6,7 @@
 {% block meta_description %}Detect plant diseases early, get AI-driven insights, treatment suggestions, and weather intelligence to protect your crops and improve your yield.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.2">
 {% endblock %}
 
 <!-- ==========================================================================
@@ -16,7 +16,8 @@
 <header class="landing-navbar">
   <div class="landing-nav-container">
     <a href="{% url 'home' %}" class="landing-nav-logo" title="Flora AI — Home">
-      <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo">
+      <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo" class="logo-light-mode">
+      <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo" class="logo-dark-mode">
     </a>
 
     <nav aria-label="Landing Navigation">
@@ -32,11 +33,11 @@
 
     <div class="landing-nav-right">
       <!-- Theme Switcher Pill -->
-      <div class="landing-theme-toggle">
+      <div class="landing-theme-toggle" role="group" aria-label="Theme Selection">
         <button type="button" class="theme-toggle-btn active" id="theme-light-btn" title="Light Theme">
           <span>☀️</span> <span>Light</span>
         </button>
-        <button type="button" class="theme-toggle-btn" id="theme-dark-btn" title="Dark Theme" onclick="alert('Dark theme mode will be enabled across all views.');">
+        <button type="button" class="theme-toggle-btn" id="theme-dark-btn" title="Dark Theme">
           <span>🌙</span> <span>Dark</span>
         </button>
       </div>
@@ -65,7 +66,7 @@
 <div class="landing-page-canvas">
 
   <!-- ========================================================================
-       Hero Section
+       Hero Section with Scenic Tea Plantation Background
        ======================================================================== -->
   <section class="landing-hero">
     <div class="landing-hero-container">
@@ -132,51 +133,59 @@
         </div>
       </div>
 
-      <!-- Hero Right Scanner Visual -->
+      <!-- Hero Right Scanner Visual (Exact match for Image 1) -->
       <div class="hero-scanner-wrapper">
-        <div class="scanner-circle-stage">
+        <div class="scanner-central-ring">
           <span class="reticle-corner reticle-tl"></span>
           <span class="reticle-corner reticle-tr"></span>
           <span class="reticle-corner reticle-bl"></span>
           <span class="reticle-corner reticle-br"></span>
 
-          <!-- Leaf Image -->
-          <img src="{% static 'images/auth-ai-leaf.jpg' %}" alt="Disease Detection Scan" class="scanner-leaf-img">
+          <!-- Orbital Badges from Mockup -->
+          <div class="orbit-badge orbit-leaf">🍃</div>
+          <div class="orbit-badge orbit-shield">🛡️</div>
+          <div class="orbit-badge orbit-sun">⛅</div>
 
-          <!-- Floating Result Card (Exact match for sample mockup) -->
+          <!-- Diseased Leaf Scan Image -->
+          <img src="{% static 'images/hero-leaf-scan.jpg' %}" alt="Disease Detection Scan" class="scanner-leaf-photo">
+
+          <!-- Floating Result Card -->
           <div class="floating-result-card">
-            <div class="result-card-header">
+            <div class="result-card-top">
               <span>AI Detection Result</span>
-              <span class="result-check-badge">✓</span>
+              <span class="result-check-circle">✓</span>
             </div>
 
-            <div class="result-crop-row">
-              <div class="result-crop-thumb">🍅</div>
+            <div class="result-crop-banner">
+              <img src="{% static 'images/hero-leaf-scan.jpg' %}" alt="Leaf Thumbnail" class="result-mini-leaf">
               <div>
-                <div class="result-crop-title">Tomato - Early Blight</div>
-                <div class="result-confidence">Confidence: 94%</div>
+                <div class="result-crop-name">Tomato - Early Blight</div>
+                <div class="result-confidence-txt">Confidence: 94%</div>
               </div>
             </div>
 
-            <ul class="result-menu-list">
-              <li class="result-menu-item">
-                <span>Disease Information</span>
+            <ul class="result-menu-nav">
+              <li class="result-nav-row">
+                <span><span>🍃</span> Disease Information</span>
                 <span>&rsaquo;</span>
               </li>
-              <li class="result-menu-item">
-                <span>Treatment &amp; Suggestions</span>
+              <li class="result-nav-row">
+                <span><span>💊</span> Treatment &amp; Suggestions</span>
                 <span>&rsaquo;</span>
               </li>
-              <li class="result-menu-item">
-                <span>Precautions</span>
+              <li class="result-nav-row">
+                <span><span>🛡️</span> Precautions</span>
                 <span>&rsaquo;</span>
               </li>
-              <li class="result-menu-item">
-                <span>Weather Impact</span>
+              <li class="result-nav-row">
+                <span><span>⛅</span> Weather Impact</span>
                 <span>&rsaquo;</span>
               </li>
             </ul>
           </div>
+
+          <!-- Numeric Badge on right corner -->
+          <span class="badge-numeric-corner">1</span>
         </div>
       </div>
 
@@ -186,59 +195,59 @@
   <!-- ========================================================================
        3. 5-Stats Bar & Multilingual Box
        ======================================================================== -->
-  <section class="landing-stats-section">
-    <div class="stats-multilingual-grid">
+  <section class="landing-stats-strip">
+    <div class="stats-multi-container">
       
-      <!-- Dark Green Stats Bar -->
-      <div class="dark-stats-bar">
-        <div class="stat-entry-unit">
-          <span class="stat-unit-icon">👥</span>
+      <!-- Dark Green Stats Capsule -->
+      <div class="dark-stats-capsule">
+        <div class="stat-capsule-item">
+          <span class="stat-capsule-icon">👥</span>
           <div>
-            <div class="stat-unit-num">10K+</div>
-            <div class="stat-unit-label">Farmers Trust Flora AI</div>
+            <div class="stat-capsule-num">10K+</div>
+            <div class="stat-capsule-label">Farmers Trust Flora AI</div>
           </div>
         </div>
 
-        <div class="stat-entry-unit">
-          <span class="stat-unit-icon">🍃</span>
+        <div class="stat-capsule-item">
+          <span class="stat-capsule-icon">🍃</span>
           <div>
-            <div class="stat-unit-num">25K+</div>
-            <div class="stat-unit-label">Diseases Detected</div>
+            <div class="stat-capsule-num">25K+</div>
+            <div class="stat-capsule-label">Diseases Detected</div>
           </div>
         </div>
 
-        <div class="stat-entry-unit">
-          <span class="stat-unit-icon">🌾</span>
+        <div class="stat-capsule-item">
+          <span class="stat-capsule-icon">🌾</span>
           <div>
-            <div class="stat-unit-num">50+</div>
-            <div class="stat-unit-label">Crops Supported</div>
+            <div class="stat-capsule-num">50+</div>
+            <div class="stat-capsule-label">Crops Supported</div>
           </div>
         </div>
 
-        <div class="stat-entry-unit">
-          <span class="stat-unit-icon">🎯</span>
+        <div class="stat-capsule-item">
+          <span class="stat-capsule-icon">🎯</span>
           <div>
-            <div class="stat-unit-num">98%</div>
-            <div class="stat-unit-label">Detection Accuracy</div>
+            <div class="stat-capsule-num">98%</div>
+            <div class="stat-capsule-label">Detection Accuracy</div>
           </div>
         </div>
 
-        <div class="stat-entry-unit">
-          <span class="stat-unit-icon">🎧</span>
+        <div class="stat-capsule-item">
+          <span class="stat-capsule-icon">🎧</span>
           <div>
-            <div class="stat-unit-num">24/7</div>
-            <div class="stat-unit-label">AI Assistance</div>
+            <div class="stat-capsule-num">24/7</div>
+            <div class="stat-capsule-label">AI Assistance</div>
           </div>
         </div>
       </div>
 
-      <!-- Multilingual Card -->
-      <div class="multilingual-card-box">
-        <span class="lang-globe-icon">🌐</span>
+      <!-- Multilingual Bubble Card -->
+      <div class="multilingual-bubble-card">
+        <span class="multi-globe-icon">🌐</span>
         <div>
-          <div class="lang-box-head">Available in Your Language</div>
-          <div class="lang-box-choices">
-            <span style="font-weight: 700; color: #16a34a;">English</span> &nbsp;|&nbsp;
+          <div class="multi-title-txt">Available in Your Language</div>
+          <div class="multi-lang-options">
+            <strong>English</strong> &nbsp;|&nbsp;
             <span>தமிழ்</span> &nbsp;|&nbsp;
             <span>తెలుగు</span>
           </div>
@@ -251,83 +260,83 @@
   <!-- ========================================================================
        4. Powerful Features Section (5 Cards in a Row)
        ======================================================================== -->
-  <section id="features" class="landing-features-area">
-    <h2 class="features-headline-center">
+  <section id="features" class="landing-features-block">
+    <h2 class="features-header-title">
       Powerful Features for <span style="color: #16a34a;">Smarter Farming</span>
     </h2>
 
-    <div class="features-5grid">
+    <div class="features-row-5col">
       <!-- Feature 1: Disease Detection -->
-      <div class="feature-single-card">
-        <div class="feature-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="feature-box-white">
+        <div class="feature-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
             <circle cx="12" cy="13" r="4"></circle>
           </svg>
         </div>
-        <h3 class="feature-card-title">Disease Detection</h3>
-        <p class="feature-card-desc">
+        <h3 class="feature-box-title">Disease Detection</h3>
+        <p class="feature-box-text">
           Upload a plant image and let our AI detect diseases with high accuracy.
         </p>
       </div>
 
       <!-- Feature 2: AI Insights -->
-      <div class="feature-single-card">
-        <div class="feature-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="feature-box-white">
+        <div class="feature-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2">
             <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.54z"></path>
             <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.54z"></path>
           </svg>
         </div>
-        <h3 class="feature-card-title">AI Insights</h3>
-        <p class="feature-card-desc">
+        <h3 class="feature-box-title">AI Insights</h3>
+        <p class="feature-box-text">
           Get smart suggestions, treatment plans, and precautions instantly.
         </p>
       </div>
 
       <!-- Feature 3: Weather Intelligence -->
-      <div class="feature-single-card">
-        <div class="feature-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="feature-box-white">
+        <div class="feature-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2">
             <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
             <line x1="8" y1="21" x2="8" y2="23"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
             <line x1="16" y1="21" x2="16" y2="23"></line>
           </svg>
         </div>
-        <h3 class="feature-card-title">Weather Intelligence</h3>
-        <p class="feature-card-desc">
+        <h3 class="feature-box-title">Weather Intelligence</h3>
+        <p class="feature-box-text">
           Real-time weather updates and disease risk alerts for better decisions.
         </p>
       </div>
 
       <!-- Feature 4: Protect Your Crop -->
-      <div class="feature-single-card">
-        <div class="feature-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="feature-box-white">
+        <div class="feature-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             <path d="M12 8v8"></path>
             <path d="m8 12 4-4 4 4"></path>
           </svg>
         </div>
-        <h3 class="feature-card-title">Protect Your Crop</h3>
-        <p class="feature-card-desc">
+        <h3 class="feature-box-title">Protect Your Crop</h3>
+        <p class="feature-box-text">
           Take early action, follow recommendations, and improve your yield.
         </p>
       </div>
 
       <!-- Feature 5: Farmer Community -->
-      <div class="feature-single-card">
-        <div class="feature-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="feature-box-white">
+        <div class="feature-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#16a34a" stroke-width="2">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
         </div>
-        <h3 class="feature-card-title">Farmer Community</h3>
-        <p class="feature-card-desc">
+        <h3 class="feature-box-title">Farmer Community</h3>
+        <p class="feature-box-text">
           Share, learn, and grow together with farmers like you.
         </p>
       </div>
@@ -335,35 +344,35 @@
   </section>
 
   <!-- ========================================================================
-       5. Middle Panels: How Flora AI Works (Left) & We Support Many Crops (Right)
+       5. Middle Panels: How Flora AI Works & We Support Many Crops
        ======================================================================== -->
-  <section id="how-it-works" class="landing-middle-panels">
+  <section id="how-it-works" class="landing-twopanels-section">
     
     <!-- Left: How Flora AI Works -->
-    <div class="panel-white-frame">
-      <h3 class="panel-title-center">How Flora AI Works</h3>
+    <div class="panel-card-container">
+      <h3 class="panel-card-title">How Flora AI Works</h3>
 
-      <div class="steps-workflow-row">
+      <div class="workflow-steps-flex">
         <!-- Step 1 -->
-        <div class="step-node">
-          <div class="step-node-bubble">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="workflow-node-col">
+          <div class="workflow-bubble-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
               <circle cx="8.5" cy="8.5" r="1.5"></circle>
               <polyline points="21 15 16 10 5 21"></polyline>
             </svg>
           </div>
-          <div class="step-counter">Step 1</div>
-          <div class="step-node-title">Upload Crop Image</div>
-          <div class="step-node-desc">Upload a clear image of the affected plant.</div>
+          <div class="workflow-step-num">Step 1</div>
+          <div class="workflow-step-name">Upload Crop Image</div>
+          <div class="workflow-step-desc">Upload a clear image of the affected plant.</div>
         </div>
 
-        <span class="step-arrow">&rarr;</span>
+        <span class="workflow-arrow-divider">&rarr;</span>
 
         <!-- Step 2 -->
-        <div class="step-node">
-          <div class="step-node-bubble">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="workflow-node-col">
+          <div class="workflow-bubble-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="4" y="4" width="16" height="16" rx="2"></rect>
               <rect x="9" y="9" width="6" height="6"></rect>
               <line x1="9" y1="1" x2="9" y2="4"></line>
@@ -372,84 +381,97 @@
               <line x1="15" y1="20" x2="15" y2="23"></line>
             </svg>
           </div>
-          <div class="step-counter">Step 2</div>
-          <div class="step-node-title">AI Analyzes</div>
-          <div class="step-node-desc">Our AI model scans and detects the disease.</div>
+          <div class="workflow-step-num">Step 2</div>
+          <div class="workflow-step-name">AI Analyzes</div>
+          <div class="workflow-step-desc">Our AI model scans and detects the disease.</div>
         </div>
 
-        <span class="step-arrow">&rarr;</span>
+        <span class="workflow-arrow-divider">&rarr;</span>
 
         <!-- Step 3 -->
-        <div class="step-node">
-          <div class="step-node-bubble">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="workflow-node-col">
+          <div class="workflow-bubble-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
               <line x1="16" y1="13" x2="8" y2="13"></line>
               <line x1="16" y1="17" x2="8" y2="17"></line>
             </svg>
           </div>
-          <div class="step-counter">Step 3</div>
-          <div class="step-node-title">Get Instant Results</div>
-          <div class="step-node-desc">Receive disease details, suggestions &amp; treatment.</div>
+          <div class="workflow-step-num">Step 3</div>
+          <div class="workflow-step-name">Get Instant Results</div>
+          <div class="workflow-step-desc">Receive disease details, suggestions &amp; treatment.</div>
         </div>
 
-        <span class="step-arrow">&rarr;</span>
+        <span class="workflow-arrow-divider">&rarr;</span>
 
         <!-- Step 4 -->
-        <div class="step-node">
-          <div class="step-node-bubble">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="workflow-node-col">
+          <div class="workflow-bubble-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               <polyline points="9 12 11 14 15 10"></polyline>
             </svg>
           </div>
-          <div class="step-counter">Step 4</div>
-          <div class="step-node-title">Take Action</div>
-          <div class="step-node-desc">Follow recommendations and protect your crop.</div>
+          <div class="workflow-step-num">Step 4</div>
+          <div class="workflow-step-name">Take Action</div>
+          <div class="workflow-step-desc">Follow recommendations and protect your crop.</div>
         </div>
       </div>
     </div>
 
-    <!-- Right: We Support Many Crops -->
-    <div id="crops" class="panel-white-frame">
-      <h3 class="panel-title-center">We Support Many Crops</h3>
+    <!-- Right: We Support Many Crops with Real Photographic Cards -->
+    <div id="crops" class="panel-card-container">
+      <h3 class="panel-card-title">We Support Many Crops</h3>
 
-      <div class="crops-tiles-row">
+      <div class="crops-photogrid-6">
         <!-- 1. Tomato -->
-        <div class="crop-card-unit">
-          <div class="crop-thumb-box">🍅</div>
-          <div class="crop-card-name">Tomato</div>
+        <div class="crop-card-item">
+          <div class="crop-photo-wrap">
+            <img src="{% static 'images/crop-tomato.jpg' %}" alt="Tomato crop">
+          </div>
+          <div class="crop-photo-caption">Tomato</div>
         </div>
 
         <!-- 2. Rice -->
-        <div class="crop-card-unit">
-          <div class="crop-thumb-box">🌾</div>
-          <div class="crop-card-name">Rice</div>
+        <div class="crop-card-item">
+          <div class="crop-photo-wrap">
+            <img src="{% static 'images/crop-rice.jpg' %}" alt="Rice crop">
+          </div>
+          <div class="crop-photo-caption">Rice</div>
         </div>
 
         <!-- 3. Potato -->
-        <div class="crop-card-unit">
-          <div class="crop-thumb-box">🥔</div>
-          <div class="crop-card-name">Potato</div>
+        <div class="crop-card-item">
+          <div class="crop-photo-wrap">
+            <img src="{% static 'images/crop-potato.jpg' %}" alt="Potato crop">
+          </div>
+          <div class="crop-photo-caption">Potato</div>
         </div>
 
         <!-- 4. Chilli -->
-        <div class="crop-card-unit">
-          <div class="crop-thumb-box">🌶️</div>
-          <div class="crop-card-name">Chilli</div>
+        <div class="crop-card-item">
+          <div class="crop-photo-wrap">
+            <img src="{% static 'images/crop-chilli.jpg' %}" alt="Chilli crop">
+          </div>
+          <div class="crop-photo-caption">Chilli</div>
         </div>
 
         <!-- 5. Wheat -->
-        <div class="crop-card-unit">
-          <div class="crop-thumb-box">🌽</div>
-          <div class="crop-card-name">Wheat</div>
+        <div class="crop-card-item">
+          <div class="crop-photo-wrap">
+            <img src="{% static 'images/crop-wheat.jpg' %}" alt="Wheat crop">
+          </div>
+          <div class="crop-photo-caption">Wheat</div>
         </div>
 
         <!-- 6. More Coming Soon -->
-        <div class="crop-card-unit more-card">
-          <span style="font-size: 1.5rem;">🟩</span>
-          <div class="more-txt">More Coming Soon</div>
+        <div class="crop-card-item more-coming">
+          <div class="more-squares-icon">
+            <span></span><span></span>
+            <span></span><span></span>
+          </div>
+          <div class="more-coming-txt">More Coming Soon</div>
         </div>
       </div>
     </div>
@@ -459,22 +481,22 @@
   <!-- ========================================================================
        6. Call To Action Strip
        ======================================================================== -->
-  <section class="landing-cta-strip">
-    <div class="cta-dark-card">
-      <div class="cta-card-left">
-        <div class="cta-leaf-bubble">🌱</div>
+  <section class="landing-cta-section">
+    <div class="cta-banner-darkbox">
+      <div class="cta-banner-left">
+        <div class="cta-sprout-icon">🌱</div>
         <div>
-          <h2 class="cta-card-title">Start Protecting Your Crops Today with Flora AI</h2>
-          <div class="cta-card-sub">Join thousands of farmers using AI to make smarter farming decisions.</div>
+          <h2 class="cta-title-bold">Start Protecting Your Crops Today with Flora AI</h2>
+          <div class="cta-subtitle-light">Join thousands of farmers using AI to make smarter farming decisions.</div>
         </div>
       </div>
 
-      <div class="cta-card-right">
-        <a href="{% url 'register' %}" class="btn-cta-white">
+      <div class="cta-banner-buttons">
+        <a href="{% url 'register' %}" class="btn-cta-light-pill">
           <span>Get Started Now</span>
           <span>🍃</span>
         </a>
-        <a href="#features" class="btn-cta-transparent">
+        <a href="#features" class="btn-cta-outline-pill">
           Learn More
         </a>
       </div>
@@ -485,27 +507,30 @@
 {% endblock %}
 
 <!-- ==========================================================================
-     7. Landing Dark Agricultural Footer
+     7. Landing Dark Agricultural Footer with Floating Corner Leaves
      ========================================================================== -->
 {% block footer %}
 <footer id="contact" class="landing-footer-dark">
+  <div class="footer-leaf-accent-left"></div>
+  <div class="footer-leaf-accent-right"></div>
+
   <div class="landing-footer-container">
     
-    <div class="footer-top-grid">
+    <div class="footer-columns-4">
       <!-- Col 1: Brand & Mission -->
       <div>
         <a href="{% url 'home' %}" title="Flora AI">
-          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo" style="height: 44px;">
+          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo" style="height: 48px;">
         </a>
-        <p class="footer-brand-bio">
+        <p class="footer-brand-summary">
           AI-powered plant disease detection and smart farming insights for a better tomorrow.
         </p>
       </div>
 
       <!-- Col 2: Quick Links -->
       <div id="about-us">
-        <h4 class="footer-col-title">Quick Links</h4>
-        <ul class="footer-col-links">
+        <h4 class="footer-heading-col">Quick Links</h4>
+        <ul class="footer-link-group">
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#how-it-works">How It Works</a></li>
@@ -517,44 +542,85 @@
 
       <!-- Col 3: Support -->
       <div>
-        <h4 class="footer-col-title">Support</h4>
-        <ul class="footer-col-links">
-          <li><a href="#" onclick="alert('Help Center: Email us at support@flora.ai'); return false;">Help Center</a></li>
-          <li><a href="#" onclick="alert('FAQs: High accuracy AI detection is available for over 50 crop varieties.'); return false;">FAQs</a></li>
-          <li><a href="#" onclick="alert('Privacy Policy: All agricultural data is protected and kept private.'); return false;">Privacy Policy</a></li>
-          <li><a href="#" onclick="alert('Terms of Service: Service provided for precision agricultural disease classification.'); return false;">Terms of Service</a></li>
+        <h4 class="footer-heading-col">Support</h4>
+        <ul class="footer-link-group">
+          <li><a href="#" onclick="alert('Help Center: Contact support@flora.ai'); return false;">Help Center</a></li>
+          <li><a href="#" onclick="alert('FAQs: Diagnostics supported for 50+ crop varieties.'); return false;">FAQs</a></li>
+          <li><a href="#" onclick="alert('Privacy Policy: Your crop health data is protected.'); return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="alert('Terms of Service: Precision agronomic guidelines.'); return false;">Terms of Service</a></li>
         </ul>
       </div>
 
       <!-- Col 4: Connect With Us -->
       <div>
-        <h4 class="footer-col-title">Connect With Us</h4>
-        <div class="footer-social-cluster">
-          <a href="#" class="footer-social-bubble" title="Facebook">
+        <h4 class="footer-heading-col">Connect With Us</h4>
+        <div class="footer-social-row">
+          <a href="#" class="social-circle-item" title="Facebook" style="background:#1877f2;">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
-          <a href="#" class="footer-social-bubble" title="Twitter / X">
+          <a href="#" class="social-circle-item" title="Twitter / X" style="background:#1da1f2;">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
           </a>
-          <a href="#" class="footer-social-bubble" title="Instagram">
+          <a href="#" class="social-circle-item" title="Instagram" style="background:linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
-          <a href="#" class="footer-social-bubble" title="YouTube">
+          <a href="#" class="social-circle-item" title="YouTube" style="background:#ff0000;">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z"/></svg>
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Copyright & Scroll-To-Top -->
-    <div class="footer-bottom-row">
+    <!-- Bottom Copyright & Scroll-To-Top Button -->
+    <div class="footer-bottom-bar">
       <div>&copy; 2024 Flora AI. All rights reserved.</div>
       <div>Made with ❤️ for Farmers</div>
-      <button type="button" class="footer-scroll-top" title="Back to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+      <button type="button" class="footer-scroll-btn" title="Back to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
         &uarr;
       </button>
     </div>
 
   </div>
 </footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function() {
+    const lightBtn = document.getElementById('theme-light-btn');
+    const darkBtn = document.getElementById('theme-dark-btn');
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('flora_theme', 'dark');
+        if (darkBtn) darkBtn.classList.add('active');
+        if (lightBtn) lightBtn.classList.remove('active');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.body.setAttribute('data-theme', 'light');
+        localStorage.setItem('flora_theme', 'light');
+        if (lightBtn) lightBtn.classList.add('active');
+        if (darkBtn) darkBtn.classList.remove('active');
+      }
+    }
+
+    if (lightBtn) {
+      lightBtn.addEventListener('click', function() {
+        applyTheme('light');
+      });
+    }
+
+    if (darkBtn) {
+      darkBtn.addEventListener('click', function() {
+        applyTheme('dark');
+      });
+    }
+
+    // Initialize with stored preference or default to light
+    const currentTheme = localStorage.getItem('flora_theme') || 'light';
+    applyTheme(currentTheme);
+  })();
+</script>
 {% endblock %}
