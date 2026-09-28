@@ -6,7 +6,7 @@
 {% block meta_description %}Detect plant diseases early, get AI-driven insights, treatment suggestions, and weather intelligence to protect your crops and improve your yield.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.2">
+<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.3">
 {% endblock %}
 
 <!-- ==========================================================================
@@ -133,8 +133,9 @@
         </div>
       </div>
 
-      <!-- Hero Right Scanner Visual (Exact match for Image 1) -->
+      <!-- Hero Right Scanner Visual (Clear side-by-side layout, zero collision) -->
       <div class="hero-scanner-wrapper">
+        <!-- Central Scanner Ring with Diseased Leaf Photo -->
         <div class="scanner-central-ring">
           <span class="reticle-corner reticle-tl"></span>
           <span class="reticle-corner reticle-tr"></span>
@@ -146,47 +147,47 @@
           <div class="orbit-badge orbit-shield">🛡️</div>
           <div class="orbit-badge orbit-sun">⛅</div>
 
-          <!-- Diseased Leaf Scan Image -->
+          <!-- Diseased Leaf Scan Image (Unobstructed) -->
           <img src="{% static 'images/hero-leaf-scan.jpg' %}" alt="Disease Detection Scan" class="scanner-leaf-photo">
+        </div>
 
-          <!-- Floating Result Card -->
-          <div class="floating-result-card">
-            <div class="result-card-top">
-              <span>AI Detection Result</span>
-              <span class="result-check-circle">✓</span>
-            </div>
-
-            <div class="result-crop-banner">
-              <img src="{% static 'images/hero-leaf-scan.jpg' %}" alt="Leaf Thumbnail" class="result-mini-leaf">
-              <div>
-                <div class="result-crop-name">Tomato - Early Blight</div>
-                <div class="result-confidence-txt">Confidence: 94%</div>
-              </div>
-            </div>
-
-            <ul class="result-menu-nav">
-              <li class="result-nav-row">
-                <span><span>🍃</span> Disease Information</span>
-                <span>&rsaquo;</span>
-              </li>
-              <li class="result-nav-row">
-                <span><span>💊</span> Treatment &amp; Suggestions</span>
-                <span>&rsaquo;</span>
-              </li>
-              <li class="result-nav-row">
-                <span><span>🛡️</span> Precautions</span>
-                <span>&rsaquo;</span>
-              </li>
-              <li class="result-nav-row">
-                <span><span>⛅</span> Weather Impact</span>
-                <span>&rsaquo;</span>
-              </li>
-            </ul>
+        <!-- Floating Result Card (Cleanly positioned beside the scanner) -->
+        <div class="floating-result-card">
+          <div class="result-card-top">
+            <span>AI Detection Result</span>
+            <span class="result-check-circle">✓</span>
           </div>
 
-          <!-- Numeric Badge on right corner -->
-          <span class="badge-numeric-corner">1</span>
+          <div class="result-crop-banner">
+            <img src="{% static 'images/hero-leaf-scan.jpg' %}" alt="Leaf Thumbnail" class="result-mini-leaf">
+            <div>
+              <div class="result-crop-name">Tomato - Early Blight</div>
+              <div class="result-confidence-txt">Confidence: 94%</div>
+            </div>
+          </div>
+
+          <ul class="result-menu-nav">
+            <li class="result-nav-row">
+              <span><span>🍃</span> Disease Information</span>
+              <span>&rsaquo;</span>
+            </li>
+            <li class="result-nav-row">
+              <span><span>💊</span> Treatment &amp; Suggestions</span>
+              <span>&rsaquo;</span>
+            </li>
+            <li class="result-nav-row">
+              <span><span>🛡️</span> Precautions</span>
+              <span>&rsaquo;</span>
+            </li>
+            <li class="result-nav-row">
+              <span><span>⛅</span> Weather Impact</span>
+              <span>&rsaquo;</span>
+            </li>
+          </ul>
         </div>
+
+        <!-- Numeric Badge -->
+        <span class="badge-numeric-corner">1</span>
       </div>
 
     </div>

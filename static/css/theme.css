@@ -26,31 +26,63 @@
   --color-secondary-600: #0d9488;
   --color-secondary-700: #0f766e;
 
-  /* --- Dark & Surface Background Tokens (Tech Modern Aesthetic) --- */
-  --bg-body: #091310;
-  --bg-surface: #101e19;
-  --bg-card: #152721;
-  --bg-card-hover: #1b332b;
-  --bg-glass: rgba(16, 30, 25, 0.75);
-  --bg-input: #0d1915;
-
-  /* --- Light Theme Alternate Tokens (For high-contrast accessibility) --- */
-  --bg-light-body: #f4fbf7;
-  --bg-light-surface: #ffffff;
-  --bg-light-card: #ffffff;
-  --border-light: #e2e8f0;
+  /* --- Semantic Background Tokens (Default Light Theme) --- */
+  --bg-body: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.9);
+  --bg-input: #ffffff;
 
   /* --- Text & Content Tokens --- */
-  --text-primary: #f0fdf4;
-  --text-secondary: #94a3b8;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-muted: #64748b;
-  --text-inverse: #091310;
+  --text-inverse: #ffffff;
   --text-on-primary: #ffffff;
 
   /* --- Border & Divider Tokens --- */
-  --border-color: rgba(52, 211, 153, 0.15);
-  --border-color-hover: rgba(52, 211, 153, 0.35);
-  --border-focus: rgba(16, 185, 129, 0.6);
+  --border-color: #e2e8f0;
+  --border-color-hover: #cbd5e1;
+  --border-focus: #16a34a;
+}
+
+/* ==========================================================================
+   Explicit Theme Modes (Applied dynamically via data-theme on <html>)
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg-body: #041209;
+  --bg-surface: #071f11;
+  --bg-card: #071f11;
+  --bg-card-hover: #0b2d18;
+  --bg-glass: rgba(7, 31, 17, 0.85);
+  --bg-input: #0b2a18;
+  --border-color: #144327;
+  --border-color-hover: #1c5c36;
+  --border-focus: #22c55e;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #041209;
+  --text-on-primary: #ffffff;
+}
+
+[data-theme="light"] {
+  --bg-body: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.9);
+  --bg-input: #ffffff;
+  --border-color: #e2e8f0;
+  --border-color-hover: #cbd5e1;
+  --border-focus: #16a34a;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --text-on-primary: #ffffff;
+}
 
   /* --- Semantic Status Colors --- */
   --color-success: #10b981;
@@ -136,15 +168,19 @@ body {
   line-height: var(--line-height-normal);
   color: var(--text-primary);
   background-color: var(--bg-body);
-  background-image: 
-    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.05) 0%, transparent 40%);
-  background-attachment: fixed;
+  transition: background-color 0.2s ease, color 0.2s ease;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="dark"] body {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(20, 184, 166, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
 }
 
 h1, h2, h3, h4, h5, h6 {

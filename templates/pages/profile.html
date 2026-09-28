@@ -299,6 +299,16 @@
       </div>
 
       <div class="dash-user-cluster">
+        <!-- Theme Toggle in Profile Header -->
+        <div class="landing-theme-toggle" role="group" aria-label="Theme Selection">
+          <button type="button" class="theme-toggle-btn active btn-theme-light" id="theme-light-btn" title="Light Theme">
+            <span>☀️</span> <span>Light</span>
+          </button>
+          <button type="button" class="theme-toggle-btn btn-theme-dark" id="theme-dark-btn" title="Dark Theme">
+            <span>🌙</span> <span>Dark</span>
+          </button>
+        </div>
+
         <a href="{% url 'dashboard' %}" class="dash-cancel-link" style="height: 38px; font-size: 0.85rem; padding: 0 1rem;">
           &larr; Back to Dashboard
         </a>

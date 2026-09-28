@@ -736,3 +736,177 @@
     padding: 1.5rem;
   }
 }
+
+/* ==========================================================================
+   Full Dark Theme Mode for Dashboard & Profile Views
+   ========================================================================== */
+[data-theme="dark"] .dashboard-app-canvas {
+  background-color: #041209;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .dash-sidebar {
+  background-color: #052211;
+  border-right: 1px solid #0e301b;
+}
+
+[data-theme="dark"] .dash-top-header {
+  background-color: #061b0e;
+  border-bottom-color: #0e301b;
+}
+
+[data-theme="dark"] .dash-greeting-h1 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dash-greeting-sub {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .dash-user-profile-pill {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dash-metric-card {
+  background-color: #071f11;
+  border-color: #123d22;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .dash-metric-number {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dash-metric-label {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .dash-metric-sub {
+  color: #64748b;
+}
+
+[data-theme="dark"] .dash-section-title {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dash-action-box {
+  background-color: #071f11;
+  border-color: #123d22;
+  color: #f1f5f9;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .dash-action-box:hover {
+  background-color: #0b2d18;
+  border-color: #22c55e;
+}
+
+[data-theme="dark"] .dash-action-head {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .dash-action-desc {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .dash-white-card {
+  background-color: #071f11;
+  border-color: #123d22;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .card-top-title {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .card-top-meta {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .detection-item-crop {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .detection-item-date {
+  color: #64748b;
+}
+
+[data-theme="dark"] .detection-row-item {
+  border-bottom: 1px solid #0e301b;
+}
+
+[data-theme="dark"] .weather-temperature {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .weather-stat-val {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .weather-stat-label {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .weather-forecast-day {
+  background-color: #0b2a17;
+  border-color: #144326;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .forecast-day-name {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .forecast-day-temp {
+  color: #ffffff;
+}
+
+/* Profile-specific dark styles */
+[data-theme="dark"] .profile-banner-card,
+[data-theme="dark"] .profile-form-box,
+[data-theme="dark"] .profile-side-card {
+  background-color: #071f11 !important;
+  border-color: #123d22 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .profile-title-h2,
+[data-theme="dark"] .profile-card-title,
+[data-theme="dark"] .profile-banner-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .profile-meta-sub,
+[data-theme="dark"] .profile-banner-sub {
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .profile-input,
+[data-theme="dark"] .profile-select,
+[data-theme="dark"] .profile-textarea {
+  background-color: #0b2a18 !important;
+  border-color: #174828 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .profile-input:focus,
+[data-theme="dark"] .profile-select:focus,
+[data-theme="dark"] .profile-textarea:focus {
+  border-color: #22c55e !important;
+  background-color: #0e341e !important;
+}
+
+[data-theme="dark"] .profile-label {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .profile-info-pill {
+  background-color: #0b2a18 !important;
+  border-color: #174828 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .profile-info-pill strong {
+  color: #ffffff !important;
+}

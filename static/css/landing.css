@@ -4,6 +4,8 @@
    multilingual bar, feature cards, and dark agricultural footer.
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
+
 .landing-page-canvas {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
@@ -195,6 +197,7 @@
 }
 
 .hero-headline-main {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 3.2rem;
   font-weight: 900;
   line-height: 1.15;
@@ -308,15 +311,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 480px;
+  width: 100%;
 }
 
 /* Central Scanner Ring */
 .scanner-central-ring {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
   background: radial-gradient(circle, #e2f7ea 0%, rgba(220, 252, 231, 0.4) 65%, transparent 100%);
   display: flex;
@@ -324,11 +328,13 @@
   justify-content: center;
   border: 2px dashed rgba(34, 197, 94, 0.4);
   box-shadow: 0 0 60px rgba(34, 197, 94, 0.2);
+  flex-shrink: 0;
+  margin-left: 10px;
 }
 
 .scanner-leaf-photo {
-  width: 250px;
-  height: 250px;
+  width: 230px;
+  height: 230px;
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14);
@@ -364,11 +370,12 @@
 .orbit-shield { bottom: 80px; left: -10px; color: #16a34a; }
 .orbit-sun { top: 30px; right: 80px; }
 
-/* Floating AI Result Card */
+/* Floating AI Result Card - Sits cleanly to the right with zero overlap on the leaf */
 .floating-result-card {
   position: absolute;
-  right: -10px;
-  top: 50px;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -570,6 +577,7 @@
 }
 
 .features-header-title {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 2.35rem;
   font-weight: 800;
   color: #0f172a;
@@ -644,6 +652,7 @@
 }
 
 .panel-card-title {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.35rem;
   font-weight: 800;
   color: #0f172a;
@@ -819,6 +828,7 @@
 }
 
 .cta-title-bold {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.65rem;
   font-weight: 800;
   color: #ffffff;
@@ -1012,6 +1022,17 @@
   .landing-hero-container {
     grid-template-columns: 1fr;
   }
+  .hero-scanner-wrapper {
+    justify-content: center;
+    padding-left: 0;
+  }
+  .floating-result-card {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin-left: -30px;
+  }
   .stats-multi-container {
     grid-template-columns: 1fr;
   }
@@ -1030,6 +1051,16 @@
 }
 
 @media (max-width: 768px) {
+  .hero-scanner-wrapper {
+    flex-direction: column;
+    min-height: auto;
+    gap: 1.5rem;
+  }
+  .floating-result-card {
+    margin-left: 0;
+    width: 100%;
+    max-width: 320px;
+  }
   .landing-nav-menu,
   .landing-theme-toggle {
     display: none;
@@ -1078,13 +1109,13 @@
 }
 
 [data-theme="dark"] .landing-nav-link {
-  color: #94a3b8;
+  color: #e2e8f0;
 }
 
 [data-theme="dark"] .landing-nav-link:hover,
 [data-theme="dark"] .landing-nav-link.active {
-  color: #22c55e;
-  border-bottom-color: #22c55e;
+  color: #4ade80;
+  border-bottom-color: #4ade80;
 }
 
 [data-theme="dark"] .landing-theme-toggle {
@@ -1119,6 +1150,16 @@
   border-color: #1c522f;
 }
 
+[data-theme="dark"] .landing-btn-register {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(22, 163, 74, 0.4) !important;
+}
+
+[data-theme="dark"] .landing-btn-register:hover {
+  background-color: #15803d !important;
+}
+
 [data-theme="dark"] .landing-hero {
   background: 
     linear-gradient(180deg, rgba(4, 18, 9, 0.88) 0%, rgba(3, 14, 7, 0.94) 60%, #041209 100%),
@@ -1134,7 +1175,7 @@
 }
 
 [data-theme="dark"] .hero-desc-main {
-  color: #cbd5e1;
+  color: #e2e8f0;
 }
 
 [data-theme="dark"] .btn-hero-secondary {
@@ -1162,7 +1203,7 @@
 }
 
 [data-theme="dark"] .hero-badge-sub {
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 [data-theme="dark"] .scanner-central-ring {
@@ -1201,7 +1242,11 @@
 
 [data-theme="dark"] .result-nav-row {
   background-color: #0c2d1a;
-  color: #cbd5e1;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .result-nav-row span:last-child {
+  color: #4ade80;
 }
 
 [data-theme="dark"] .dark-stats-capsule {
@@ -1221,15 +1266,23 @@
 }
 
 [data-theme="dark"] .multi-lang-options {
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 [data-theme="dark"] .multi-lang-options strong {
   color: #4ade80;
 }
 
+[data-theme="dark"] .multi-lang-options span {
+  color: #f1f5f9;
+}
+
 [data-theme="dark"] .features-header-title {
   color: #ffffff;
+}
+
+[data-theme="dark"] .features-header-title span {
+  color: #4ade80 !important;
 }
 
 [data-theme="dark"] .feature-box-white {
@@ -1247,12 +1300,16 @@
   background-color: #0d321b;
 }
 
+[data-theme="dark"] .feature-icon-wrapper svg {
+  stroke: #4ade80 !important;
+}
+
 [data-theme="dark"] .feature-box-title {
   color: #ffffff;
 }
 
 [data-theme="dark"] .feature-box-text {
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 [data-theme="dark"] .panel-card-container {
@@ -1270,12 +1327,24 @@
   color: #4ade80;
 }
 
+[data-theme="dark"] .workflow-bubble-icon svg {
+  stroke: #4ade80 !important;
+}
+
+[data-theme="dark"] .workflow-step-num {
+  color: #4ade80 !important;
+}
+
 [data-theme="dark"] .workflow-step-name {
   color: #ffffff;
 }
 
 [data-theme="dark"] .workflow-step-desc {
-  color: #94a3b8;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .workflow-arrow-divider {
+  color: #4ade80 !important;
 }
 
 [data-theme="dark"] .crop-card-item {
@@ -1298,4 +1367,48 @@
 
 [data-theme="dark"] .more-squares-icon span {
   background-color: #4ade80;
+}
+
+[data-theme="dark"] .cta-banner-darkbox {
+  background-color: #052614;
+  border: 1px solid #134626;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .cta-title-bold {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .cta-subtitle-light {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .btn-cta-light-pill {
+  background-color: #22c55e;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .btn-cta-outline-pill {
+  border-color: #4ade80;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .footer-brand-summary {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .footer-heading-col {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .footer-link-group a {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .footer-link-group a:hover {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .footer-bottom-bar {
+  color: #cbd5e1;
 }

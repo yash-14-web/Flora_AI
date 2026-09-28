@@ -6,7 +6,7 @@
 {% block meta_description %}Create your account and start protecting your crops with AI disease detection and precision farming insights.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth.css' %}?v=2.2">
+<link rel="stylesheet" href="{% static 'css/auth.css' %}?v=2.3">
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -14,6 +14,14 @@
 
 {% block content %}
 <div class="auth-page-screen">
+  <!-- Theme Toggle in Auth Screen -->
+  <div class="auth-theme-toggle-wrap">
+    <button type="button" class="auth-theme-toggle-btn" id="auth-theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+      <span class="theme-icon-light">☀️</span>
+      <span class="theme-icon-dark">🌙</span>
+    </button>
+  </div>
+
   <div class="auth-split-card">
 
     <!-- Left Visual Panel (PAGE-002 - REGISTRATION PAGE) -->

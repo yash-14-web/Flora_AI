@@ -3,6 +3,8 @@
    Exact implementation of PAGE-002 (Registration) & PAGE-003 (Login)
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
+
 /* Page Outer Background & Center Layout */
 .auth-page-screen {
   min-height: 100vh;
@@ -67,6 +69,7 @@
 }
 
 .visual-heading {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 2.15rem;
   font-weight: 800;
   line-height: 1.25;
@@ -201,6 +204,7 @@
 }
 
 .auth-title-main {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.75rem;
   font-weight: 800;
   color: #0f172a;
@@ -495,4 +499,192 @@
     padding: 0 0.5rem;
     font-size: 0.85rem;
   }
+}
+
+/* ==========================================================================
+   Full Dark Theme Mode for Auth Screens (Login & Register)
+   ========================================================================== */
+.auth-theme-toggle-wrap {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 50;
+}
+
+.auth-theme-toggle-btn {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.auth-theme-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.auth-theme-toggle-btn .theme-icon-dark {
+  display: none;
+}
+.auth-theme-toggle-btn .theme-icon-light {
+  display: block;
+}
+
+[data-theme="dark"] .auth-theme-toggle-btn {
+  background-color: #0a2916;
+  border-color: #164a27;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .auth-theme-toggle-btn .theme-icon-light {
+  display: none;
+}
+[data-theme="dark"] .auth-theme-toggle-btn .theme-icon-dark {
+  display: block;
+}
+
+[data-theme="dark"] .auth-page-screen {
+  background-color: #041209;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .auth-split-card {
+  background-color: #071f11;
+  border: 1px solid #133f23;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px #133f23;
+}
+
+[data-theme="dark"] .auth-panel-form {
+  background-color: #071f11;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .auth-title-main {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .auth-subtitle-main {
+  color: #cbd5e1;
+}
+
+/* Correct class: .auth-input-box with crisp dark background and emerald focus */
+[data-theme="dark"] .auth-input-box {
+  background-color: #0b2a18 !important;
+  border-color: #1a532f !important;
+}
+
+[data-theme="dark"] .auth-input-box:focus-within {
+  background-color: #0e341e !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25) !important;
+}
+
+[data-theme="dark"] .auth-input-box.is-invalid {
+  background-color: #220a0a !important;
+  border-color: #ef4444 !important;
+}
+
+[data-theme="dark"] .auth-inline-label {
+  color: #f1f5f9 !important;
+  border-right-color: #1a532f !important;
+}
+
+[data-theme="dark"] .auth-inline-label svg {
+  color: #4ade80 !important;
+}
+
+[data-theme="dark"] .auth-field-core {
+  background: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .auth-field-core::placeholder {
+  color: #64748b !important;
+}
+
+/* Seamless Dark Mode Autocomplete Support */
+[data-theme="dark"] .auth-field-core:-webkit-autofill,
+[data-theme="dark"] .auth-field-core:-webkit-autofill:hover,
+[data-theme="dark"] .auth-field-core:-webkit-autofill:focus,
+[data-theme="dark"] .auth-field-core:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #0b2a18 inset !important;
+  box-shadow: 0 0 0 1000px #0b2a18 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+[data-theme="dark"] .auth-toggle-pwd {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .auth-toggle-pwd:hover {
+  color: #4ade80;
+}
+
+/* Correct class: .auth-remember-check */
+[data-theme="dark"] .auth-remember-check {
+  color: #e2e8f0 !important;
+}
+
+/* Correct class: .auth-forgot-btn */
+[data-theme="dark"] .auth-forgot-btn {
+  color: #4ade80 !important;
+}
+
+[data-theme="dark"] .auth-forgot-btn:hover {
+  color: #86efac !important;
+}
+
+/* Correct class: .auth-switch-row and its link */
+[data-theme="dark"] .auth-switch-row {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .auth-switch-row a {
+  color: #4ade80 !important;
+}
+
+[data-theme="dark"] .auth-switch-row a:hover {
+  color: #86efac !important;
+}
+
+[data-theme="dark"] .auth-google-box {
+  background-color: #0b2a18;
+  border-color: #1a532f;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .auth-google-box:hover {
+  background-color: #0e341e;
+  border-color: #22c55e;
+}
+
+/* Correct class: .auth-or-line */
+[data-theme="dark"] .auth-or-line {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .auth-or-line::before,
+[data-theme="dark"] .auth-or-line::after {
+  border-bottom-color: #1a532f;
+}
+
+[data-theme="dark"] .auth-error-hint {
+  color: #f87171;
+}
+
+[data-theme="dark"] .auth-alert-message {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
 }
