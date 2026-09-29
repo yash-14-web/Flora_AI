@@ -377,6 +377,56 @@
   color: var(--color-primary-400);
 }
 
+/* --- Universal Theme Toggle Component (Shared across all pages) --- */
+.landing-theme-toggle,
+.theme-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border-radius: 9999px;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid #e2e8f0;
+  user-select: none;
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.theme-toggle-btn.active {
+  background-color: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .landing-theme-toggle,
+[data-theme="dark"] .theme-toggle-wrap {
+  background-color: #0a2414;
+  border-color: #123d22;
+}
+
+[data-theme="dark"] .theme-toggle-btn {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .theme-toggle-btn.active {
+  background-color: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
 /* --- Shared Footer --- */
 .footer {
   background-color: var(--bg-surface);

@@ -6,7 +6,7 @@
 {% block meta_description %}Detect plant diseases early, get AI-driven insights, treatment suggestions, and weather intelligence to protect your crops and improve your yield.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.3">
+<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.5">
 {% endblock %}
 
 <!-- ==========================================================================
@@ -185,9 +185,6 @@
             </li>
           </ul>
         </div>
-
-        <!-- Numeric Badge -->
-        <span class="badge-numeric-corner">1</span>
       </div>
 
     </div>
@@ -585,43 +582,4 @@
 </footer>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-  (function() {
-    const lightBtn = document.getElementById('theme-light-btn');
-    const darkBtn = document.getElementById('theme-dark-btn');
-
-    function applyTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('flora_theme', 'dark');
-        if (darkBtn) darkBtn.classList.add('active');
-        if (lightBtn) lightBtn.classList.remove('active');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        document.body.setAttribute('data-theme', 'light');
-        localStorage.setItem('flora_theme', 'light');
-        if (lightBtn) lightBtn.classList.add('active');
-        if (darkBtn) darkBtn.classList.remove('active');
-      }
-    }
-
-    if (lightBtn) {
-      lightBtn.addEventListener('click', function() {
-        applyTheme('light');
-      });
-    }
-
-    if (darkBtn) {
-      darkBtn.addEventListener('click', function() {
-        applyTheme('dark');
-      });
-    }
-
-    // Initialize with stored preference or default to light
-    const currentTheme = localStorage.getItem('flora_theme') || 'light';
-    applyTheme(currentTheme);
-  })();
-</script>
-{% endblock %}
+{% block extra_js %}{% endblock %}

@@ -6,7 +6,7 @@
 {% block meta_description %}Manage your Flora AI user profile, agronomist credentials, crop focus, and disease alert preferences.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=2.5">
 <style>
   /* Profile Layout Extensions matching Dashboard Theme */
   .profile-edit-grid {
@@ -39,6 +39,40 @@
     font-weight: 800;
     box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
     flex-shrink: 0;
+  }
+  .profile-header-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+  .profile-stats-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .profile-stat-box {
+    text-align: center;
+    padding: 0.75rem 1.25rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+  }
+  .profile-stat-val {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+  .profile-stat-val.val-green {
+    color: #16a34a;
+  }
+  .profile-stat-val.val-blue {
+    color: #2563eb;
+  }
+  .profile-stat-lbl {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
   }
   .profile-form-box {
     background: #ffffff;
@@ -98,6 +132,37 @@
   .field-wrap-dash input.is-invalid {
     border-color: #ef4444 !important;
     background-color: #fef2f2;
+  }
+  .profile-pref-card {
+    margin-top: 0.85rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+  }
+  .pref-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    display: block;
+  }
+  .pref-card-sub {
+    font-size: 0.78rem;
+    color: #64748b;
+  }
+  .form-action-row {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .profile-sync-txt {
+    font-size: 0.82rem;
+    color: #94a3b8;
   }
   .dash-save-btn {
     height: 46px;
@@ -172,6 +237,130 @@
     font-weight: 600;
     color: #0f172a;
   }
+  .profile-tip-card {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .tip-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .tip-card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #065f46;
+  }
+  .tip-card-desc {
+    font-size: 0.8rem;
+    color: #166534;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* -------------------------------------------------------------
+     DARK THEME OVERRIDES FOR PROFILE
+     ------------------------------------------------------------- */
+  [data-theme="dark"] .profile-banner-card,
+  [data-theme="dark"] .profile-form-box,
+  [data-theme="dark"] .profile-side-card {
+    background: #071f11 !important;
+    border-color: #133f23 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+    color: #f1f5f9;
+  }
+  [data-theme="dark"] .profile-header-title {
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .profile-stat-box {
+    background: #0b2a18 !important;
+    border-color: #1a4d2e !important;
+  }
+  [data-theme="dark"] .profile-stat-val.val-green {
+    color: #4ade80 !important;
+  }
+  [data-theme="dark"] .profile-stat-val.val-blue {
+    color: #60a5fa !important;
+  }
+  [data-theme="dark"] .profile-stat-lbl {
+    color: #94a3b8 !important;
+  }
+  [data-theme="dark"] .form-section-title {
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .form-section-divider {
+    border-top-color: #123d22 !important;
+  }
+  [data-theme="dark"] .form-action-row {
+    border-top-color: #123d22 !important;
+  }
+  [data-theme="dark"] .field-wrap-dash label {
+    color: #cbd5e1 !important;
+  }
+  [data-theme="dark"] .field-wrap-dash input,
+  [data-theme="dark"] .field-wrap-dash select {
+    background-color: #0b2a18 !important;
+    border-color: #1a4d2e !important;
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .field-wrap-dash input::placeholder {
+    color: #64748b !important;
+  }
+  [data-theme="dark"] .field-wrap-dash input:focus,
+  [data-theme="dark"] .field-wrap-dash select:focus {
+    border-color: #22c55e !important;
+    background-color: #0e351f !important;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25) !important;
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .profile-pref-card {
+    background: #0b2a18 !important;
+    border-color: #1a4d2e !important;
+  }
+  [data-theme="dark"] .pref-card-title {
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .pref-card-sub {
+    color: #94a3b8 !important;
+  }
+  [data-theme="dark"] .dash-cancel-link {
+    background-color: #0b2a18 !important;
+    border-color: #1a4d2e !important;
+    color: #e2e8f0 !important;
+  }
+  [data-theme="dark"] .dash-cancel-link:hover {
+    background-color: #123d22 !important;
+    border-color: #22c55e !important;
+    color: #4ade80 !important;
+  }
+  [data-theme="dark"] .profile-side-head {
+    color: #ffffff !important;
+    border-bottom-color: #123d22 !important;
+  }
+  [data-theme="dark"] .profile-detail-item {
+    border-bottom-color: #0e301b !important;
+  }
+  [data-theme="dark"] .profile-detail-label {
+    color: #94a3b8 !important;
+  }
+  [data-theme="dark"] .profile-detail-val {
+    color: #ffffff !important;
+  }
+  [data-theme="dark"] .profile-tip-card {
+    background-color: #062313 !important;
+    border-color: #114c27 !important;
+  }
+  [data-theme="dark"] .tip-card-title {
+    color: #4ade80 !important;
+  }
+  [data-theme="dark"] .tip-card-desc {
+    color: #cbd5e1 !important;
+  }
+  [data-theme="dark"] .profile-sync-txt {
+    color: #64748b !important;
+  }
+
   @media (max-width: 1024px) {
     .profile-edit-grid {
       grid-template-columns: 1fr;
@@ -333,7 +522,7 @@
           </div>
           <div>
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
-              <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">
+              <h2 class="profile-header-title">
                 {{ user.get_full_name|default:user.username }}
               </h2>
               <span class="badge-healthy">Active Agronomist</span>
@@ -348,14 +537,14 @@
           </div>
         </div>
 
-        <div style="display: flex; gap: 1rem; align-items: center;">
-          <div style="text-align: center; padding: 0.75rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a;">24</div>
-            <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">Total Scans</div>
+        <div class="profile-stats-group">
+          <div class="profile-stat-box">
+            <div class="profile-stat-val val-green">24</div>
+            <div class="profile-stat-lbl">Total Scans</div>
           </div>
-          <div style="text-align: center; padding: 0.75rem 1.25rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <div style="font-size: 1.5rem; font-weight: 800; color: #2563eb;">98.4%</div>
-            <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase;">AI Accuracy</div>
+          <div class="profile-stat-box">
+            <div class="profile-stat-val val-blue">98.4%</div>
+            <div class="profile-stat-lbl">AI Accuracy</div>
           </div>
         </div>
       </section>
@@ -504,7 +693,7 @@
                 </div>
               </div>
 
-              <div style="margin-top: 0.85rem; padding: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;">
+              <div class="profile-pref-card">
                 <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; user-select: none;">
                   <input 
                     type="checkbox" 
@@ -514,10 +703,10 @@
                     style="width: 18px; height: 18px; accent-color: #16a34a; cursor: pointer;"
                   >
                   <div>
-                    <span style="font-size: 0.9rem; font-weight: 600; color: #0f172a; display: block;">
+                    <span class="pref-card-title">
                       Receive High-Severity Disease Detection Alerts
                     </span>
-                    <span style="font-size: 0.78rem; color: #64748b;">
+                    <span class="pref-card-sub">
                       Receive real-time notifications when an AI scan detects high-risk pathogen infections in your region.
                     </span>
                   </div>
@@ -526,7 +715,7 @@
             </div>
 
             <!-- Form Action Buttons -->
-            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div class="form-action-row">
               <div style="display: flex; gap: 0.85rem; align-items: center;">
                 <button type="submit" id="profile-save-btn" class="dash-save-btn">
                   <span>💾 Save Changes</span>
@@ -536,7 +725,7 @@
                 </a>
               </div>
 
-              <div style="font-size: 0.82rem; color: #94a3b8;">
+              <div class="profile-sync-txt">
                 Synchronized with Flora AI Cloud
               </div>
             </div>
@@ -587,12 +776,12 @@
           </div>
 
           <!-- Agronomic Intelligence Tip -->
-          <div class="profile-side-card" style="background-color: #f0fdf4; border-color: #bbf7d0;">
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem;">
+          <div class="profile-side-card profile-tip-card">
+            <div class="tip-card-header">
               <span style="font-size: 1.1rem;">💡</span>
-              <span style="font-size: 0.88rem; font-weight: 700; color: #065f46;">Agronomist Tip</span>
+              <span class="tip-card-title">Agronomist Tip</span>
             </div>
-            <p style="font-size: 0.8rem; color: #166534; line-height: 1.45; margin: 0;">
+            <p class="tip-card-desc">
               Keeping your crop focus and agricultural zone accurate helps Flora AI deliver microclimate-specific preventative fungicide advisories.
             </p>
           </div>

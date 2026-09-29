@@ -4,9 +4,11 @@
  * and Django CSRF-safe API fetch helper.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => FloraUI.init());
+} else {
   FloraUI.init();
-});
+}
 
 const FloraUI = {
   init() {
@@ -169,57 +171,8 @@ const FloraUI = {
    * Universal Light & Dark Theme Manager across every page
    */
   initTheme() {
-    const getStoredTheme = () => {
-      try {
-        return localStorage.getItem('flora_theme') || 'light';
-      } catch (e) {
-        return 'light';
-      }
-    };
-
-    const applyTheme = (theme) => {
-      document.documentElement.setAttribute('data-theme', theme);
-      if (document.body) {
-        document.body.setAttribute('data-theme', theme);
-      }
-      try {
-        localStorage.setItem('flora_theme', theme);
-      } catch (e) {}
-
-      // Sync active state on all theme toggle buttons across the page
-      document.querySelectorAll('#theme-light-btn, #header-theme-light-btn, .btn-theme-light').forEach((btn) => {
-        if (theme === 'light') btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-      document.querySelectorAll('#theme-dark-btn, #header-theme-dark-btn, .btn-theme-dark').forEach((btn) => {
-        if (theme === 'dark') btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-    };
-
-    // Apply stored theme on initialization
-    applyTheme(getStoredTheme());
-
-    // Event delegation for all theme toggle clicks on any page
-    document.addEventListener('click', (e) => {
-      const lightBtn = e.target.closest('#theme-light-btn, #header-theme-light-btn, .btn-theme-light');
-      if (lightBtn) {
-        e.preventDefault();
-        applyTheme('light');
-        return;
-      }
-      const darkBtn = e.target.closest('#theme-dark-btn, #header-theme-dark-btn, .btn-theme-dark');
-      if (darkBtn) {
-        e.preventDefault();
-        applyTheme('dark');
-        return;
-      }
-      const singleToggle = e.target.closest('#auth-theme-toggle, .btn-theme-toggle-single');
-      if (singleToggle) {
-        e.preventDefault();
-        const nextTheme = getStoredTheme() === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme);
-      }
-    });
+    if (window.FloraTheme) {
+      window.FloraTheme.set(window.FloraTheme.get());
+    }
   }
 };

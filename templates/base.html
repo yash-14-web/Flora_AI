@@ -11,19 +11,76 @@
   {% endblock %}
 
   <!-- Master Base Stylesheet (Theme Tokens & Reusable Components) -->
-  <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.2">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.4">
   {% block extra_css %}{% endblock %}
   {% block extra_head %}{% endblock %}
   <script>
     (function() {
-      try {
-        var savedTheme = localStorage.getItem('flora_theme');
-        if (savedTheme === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-          document.documentElement.setAttribute('data-theme', 'light');
+      window.FloraTheme = {
+        get: function() {
+          try {
+            return localStorage.getItem('flora_theme') || 'light';
+          } catch(e) {
+            return 'light';
+          }
+        },
+        set: function(theme) {
+          var t = (theme === 'dark') ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', t);
+          if (document.body) {
+            document.body.setAttribute('data-theme', t);
+          }
+          try {
+            localStorage.setItem('flora_theme', t);
+          } catch(e) {}
+
+          // Sync all toggle buttons on the active page
+          var lightBtns = document.querySelectorAll('#theme-light-btn, #header-theme-light-btn, .btn-theme-light');
+          var darkBtns = document.querySelectorAll('#theme-dark-btn, #header-theme-dark-btn, .btn-theme-dark');
+          lightBtns.forEach(function(b) {
+            if (t === 'light') b.classList.add('active');
+            else b.classList.remove('active');
+          });
+          darkBtns.forEach(function(b) {
+            if (t === 'dark') b.classList.add('active');
+            else b.classList.remove('active');
+          });
+        },
+        toggle: function() {
+          var current = document.documentElement.getAttribute('data-theme') || this.get();
+          var next = (current === 'dark') ? 'light' : 'dark';
+          this.set(next);
         }
-      } catch (e) {}
+      };
+
+      // Set initial theme before first render paint
+      FloraTheme.set(FloraTheme.get());
+
+      // Global event delegation for all theme toggle clicks anywhere in the DOM
+      document.addEventListener('click', function(e) {
+        var lightBtn = e.target.closest('#theme-light-btn, #header-theme-light-btn, .btn-theme-light');
+        if (lightBtn) {
+          e.preventDefault();
+          FloraTheme.set('light');
+          return;
+        }
+        var darkBtn = e.target.closest('#theme-dark-btn, #header-theme-dark-btn, .btn-theme-dark');
+        if (darkBtn) {
+          e.preventDefault();
+          FloraTheme.set('dark');
+          return;
+        }
+        var singleToggle = e.target.closest('#auth-theme-toggle, .btn-theme-toggle-single, .auth-theme-toggle-btn');
+        if (singleToggle) {
+          e.preventDefault();
+          FloraTheme.toggle();
+        }
+      });
+
+      // Once DOM content is ready, sync button active states
+      document.addEventListener('DOMContentLoaded', function() {
+        FloraTheme.set(FloraTheme.get());
+      });
     })();
   </script>
 </head>
@@ -66,7 +123,7 @@
   {% block modals %}{% endblock %}
 
   <!-- Global JavaScript Foundation -->
-  <script src="{% static 'js/main.js' %}?v=2.2"></script>
+  <script src="{% static 'js/main.js' %}?v=2.4"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>
