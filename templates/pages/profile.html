@@ -6,7 +6,7 @@
 {% block meta_description %}Manage your Flora AI user profile, agronomist credentials, crop focus, and disease alert preferences.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=2.5">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=2.6">
 <style>
   /* Profile Layout Extensions matching Dashboard Theme */
   .profile-edit-grid {
@@ -379,97 +379,9 @@
 <div class="dashboard-app-canvas">
 
   <!-- ==========================================================================
-       1. Left Sidebar Navigation (Matching Dashboard Theme)
+       1. Left Sidebar Navigation (Shared Component with Flora AI Logo)
        ========================================================================== -->
-  <aside class="dash-sidebar" aria-label="Main Navigation">
-    <div>
-      <div class="dash-sidebar-logo">
-        <a href="{% url 'dashboard' %}" title="Flora AI Dashboard">
-          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo">
-        </a>
-      </div>
-
-      <ul class="dash-nav-menu">
-        <li class="dash-nav-item">
-          <a href="{% url 'dashboard' %}" class="dash-nav-link">
-            <span class="dash-nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-              </svg>
-            </span>
-            <span>Dashboard</span>
-          </a>
-        </li>
-
-        <li class="dash-nav-item">
-          <a href="{% url 'detection' %}" class="dash-nav-link">
-            <span class="dash-nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="22" y1="12" x2="18" y2="12"></line>
-                <line x1="6" y1="12" x2="2" y2="12"></line>
-                <line x1="12" y1="6" x2="12" y2="2"></line>
-                <line x1="12" y1="22" x2="12" y2="18"></line>
-              </svg>
-            </span>
-            <span>Disease Detection</span>
-          </a>
-        </li>
-
-        <li class="dash-nav-item">
-          <a href="{% url 'history' %}" class="dash-nav-link">
-            <span class="dash-nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </span>
-            <span>Detection History</span>
-          </a>
-        </li>
-
-        <li class="dash-nav-item">
-          <a href="{% url 'dashboard' %}#weather-overview" class="dash-nav-link">
-            <span class="dash-nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
-              </svg>
-            </span>
-            <span>Weather Intelligence</span>
-          </a>
-        </li>
-
-        <!-- Active Profile Tab -->
-        <li class="dash-nav-item active">
-          <a href="{% url 'profile' %}" class="dash-nav-link">
-            <span class="dash-nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </span>
-            <span>Profile</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Bottom Sidebar Logout Trigger -->
-    <div class="dash-sidebar-bottom">
-      <button type="button" id="trigger-logout-modal" class="dash-logout-btn">
-        <span class="dash-nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </span>
-        <span>Logout</span>
-      </button>
-    </div>
-  </aside>
+  {% include 'includes/sidebar.html' with active_page='profile' %}
 
   <!-- ==========================================================================
        2. Main Profile Workspace Pane
@@ -826,8 +738,14 @@
       </a>
     </div>
 
-    <!-- Official Flora AI Logo at Bottom -->
-    <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo" class="logout-modal-branding">
+    <!-- Official Flora AI Logo & Brand at Bottom -->
+    <div class="logout-modal-brand-lockup">
+      <img src="{% static 'images/flora-logo-emblem.png' %}?v=2.6" alt="Flora AI Logo" class="logout-brand-emblem">
+      <div class="logout-brand-text">
+        <span class="logout-brand-title">Flora <span class="logout-brand-accent">AI</span></span>
+        <span class="logout-brand-tagline">Detect. Understand. Protect.</span>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

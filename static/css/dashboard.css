@@ -33,7 +33,60 @@
 
 .dash-sidebar-logo {
   margin-bottom: 2rem;
-  padding: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.dash-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dash-sidebar-brand:hover {
+  opacity: 0.95;
+  transform: translateX(1px);
+}
+
+.dash-sidebar-emblem {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.dash-sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dash-brand-title {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.dash-brand-accent {
+  color: #4ade80;
+}
+
+.dash-brand-tagline {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #86efac;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  white-space: nowrap;
 }
 
 .dash-sidebar-logo img,
@@ -695,6 +748,51 @@
   opacity: 0.9;
 }
 
+/* Logout Modal Brand Lockup with Emblem */
+.logout-modal-brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+}
+
+.logout-brand-emblem {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  object-fit: contain;
+  display: block;
+}
+
+.logout-brand-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.logout-brand-title {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+.logout-brand-accent {
+  color: #16a34a;
+}
+
+.logout-brand-tagline {
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
@@ -937,6 +1035,18 @@
 [data-theme="dark"] .logout-modal-branding {
   filter: brightness(0) invert(1);
   opacity: 0.85;
+}
+
+[data-theme="dark"] .logout-brand-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .logout-brand-accent {
+  color: #4ade80 !important;
+}
+
+[data-theme="dark"] .logout-brand-tagline {
+  color: #86efac !important;
 }
 
 /* ==========================================================================

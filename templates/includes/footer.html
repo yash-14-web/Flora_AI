@@ -1,7 +1,11 @@
+{% load static %}
 <footer class="footer">
   <div class="container footer-content">
     <div>
-      <p style="font-weight: var(--weight-medium); color: var(--text-secondary);">Flora AI Platform</p>
+      <p style="font-weight: var(--weight-medium); color: var(--text-secondary); display: inline-flex; align-items: center; gap: 8px;">
+        <img src="{% static 'images/flora-logo-emblem.png' %}" alt="Flora AI" style="width: 22px; height: 22px; object-fit: contain;">
+        <span>Flora AI Platform</span>
+      </p>
       <p style="font-size: var(--font-xs);">Detect. Understand. Treat. — AI-powered Agricultural Health</p>
     </div>
     <div>

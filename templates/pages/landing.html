@@ -6,7 +6,7 @@
 {% block meta_description %}Detect plant diseases early, get AI-driven insights, treatment suggestions, and weather intelligence to protect your crops and improve your yield.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.5">
+<link rel="stylesheet" href="{% static 'css/landing.css' %}?v=2.6">
 {% endblock %}
 
 <!-- ==========================================================================
@@ -15,9 +15,12 @@
 {% block header %}
 <header class="landing-navbar">
   <div class="landing-nav-container">
-    <a href="{% url 'home' %}" class="landing-nav-logo" title="Flora AI — Home">
-      <img src="{% static 'images/flora-logo-dark.svg' %}" alt="Flora AI Logo" class="logo-light-mode">
-      <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo" class="logo-dark-mode">
+    <a href="{% url 'home' %}" class="landing-nav-brand" title="Flora AI — Home">
+      <img src="{% static 'images/flora-logo-emblem.png' %}?v=2.6" alt="Flora AI Logo" class="landing-nav-emblem">
+      <div class="landing-nav-brand-text">
+        <span class="landing-brand-title">Flora <span class="landing-brand-accent">AI</span></span>
+        <span class="landing-brand-tagline">Detect. Understand. Protect.</span>
+      </div>
     </a>
 
     <nav aria-label="Landing Navigation">
@@ -482,7 +485,9 @@
   <section class="landing-cta-section">
     <div class="cta-banner-darkbox">
       <div class="cta-banner-left">
-        <div class="cta-sprout-icon">🌱</div>
+        <div class="cta-sprout-icon">
+          <img src="{% static 'images/flora-logo-emblem.png' %}?v=2.6" alt="Flora AI Logo" class="cta-brand-emblem">
+        </div>
         <div>
           <h2 class="cta-title-bold">Start Protecting Your Crops Today with Flora AI</h2>
           <div class="cta-subtitle-light">Join thousands of farmers using AI to make smarter farming decisions.</div>
@@ -517,8 +522,12 @@
     <div class="footer-columns-4">
       <!-- Col 1: Brand & Mission -->
       <div>
-        <a href="{% url 'home' %}" title="Flora AI">
-          <img src="{% static 'images/flora-logo.svg' %}" alt="Flora AI Logo" style="height: 48px;">
+        <a href="{% url 'home' %}" class="landing-footer-brand" title="Flora AI">
+          <img src="{% static 'images/flora-logo-emblem.png' %}?v=2.6" alt="Flora AI Logo" class="landing-footer-emblem">
+          <div class="landing-footer-brand-text">
+            <span class="landing-footer-title">Flora <span class="landing-brand-accent">AI</span></span>
+            <span class="landing-footer-tagline">Detect. Understand. Protect.</span>
+          </div>
         </a>
         <p class="footer-brand-summary">
           AI-powered plant disease detection and smart farming insights for a better tomorrow.

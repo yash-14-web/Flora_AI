@@ -58,8 +58,54 @@
 .visual-top-logo {
   display: flex;
   align-items: center;
+  gap: 0.85rem;
   margin-bottom: 2rem;
   text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.visual-top-logo:hover {
+  opacity: 0.95;
+  transform: translateX(1px);
+}
+
+.auth-brand-emblem {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.auth-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-brand-title {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.auth-brand-accent {
+  color: #4ade80;
+}
+
+.auth-brand-tagline {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #86efac;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  white-space: nowrap;
 }
 
 .visual-top-logo svg,
